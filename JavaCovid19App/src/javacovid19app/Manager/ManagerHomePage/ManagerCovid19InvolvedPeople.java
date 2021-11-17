@@ -48,6 +48,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     public ManagerCovid19InvolvedPeople() {
         this.setResizable(false);
         initComponents();
+        this.setTitle("Covid 19 Involved People Management");
         getArrayWardList();
         getArrayCityList();
         getArrayDistrictList();
@@ -316,7 +317,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         DistrictComboBox.setBackground(new java.awt.Color(20, 31, 53));
         DistrictComboBox.setForeground(new java.awt.Color(250, 179, 40));
         DistrictComboBox.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        DistrictComboBox.setLineColor(new java.awt.Color(255, 255, 255));
         DistrictComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 DistrictComboBoxMouseClicked(evt);
@@ -344,7 +344,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         CityComboBox.setBackground(new java.awt.Color(20, 31, 53));
         CityComboBox.setForeground(new java.awt.Color(250, 179, 40));
         CityComboBox.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        CityComboBox.setLineColor(new java.awt.Color(255, 255, 255));
         getContentPane().add(CityComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, 180, -1));
 
         jTable_Display_User.setBackground(new java.awt.Color(20, 31, 53));
@@ -390,7 +389,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         WardComboBox.setBackground(new java.awt.Color(20, 31, 53));
         WardComboBox.setForeground(new java.awt.Color(250, 179, 40));
         WardComboBox.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        WardComboBox.setLineColor(new java.awt.Color(255, 255, 255));
         WardComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 WardComboBoxMouseClicked(evt);
@@ -406,7 +404,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         TreatmentFacilitiesComboBox.setBackground(new java.awt.Color(20, 31, 53));
         TreatmentFacilitiesComboBox.setForeground(new java.awt.Color(250, 179, 40));
         TreatmentFacilitiesComboBox.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        TreatmentFacilitiesComboBox.setLineColor(new java.awt.Color(255, 255, 255));
         TreatmentFacilitiesComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TreatmentFacilitiesComboBoxActionPerformed(evt);
@@ -445,7 +442,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         RelatedComboBox.setBackground(new java.awt.Color(20, 31, 53));
         RelatedComboBox.setForeground(new java.awt.Color(255, 255, 255));
         RelatedComboBox.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        RelatedComboBox.setLineColor(new java.awt.Color(255, 255, 255));
         RelatedComboBox.setOpaque(false);
         getContentPane().add(RelatedComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, 850, -1));
 
@@ -453,7 +449,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         ComboBoxSort.setForeground(new java.awt.Color(255, 255, 255));
         ComboBoxSort.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Fullname", "CurrentStatus", "City", "Treatment Place" }));
         ComboBoxSort.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        ComboBoxSort.setLineColor(new java.awt.Color(255, 255, 255));
         ComboBoxSort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ComboBoxSortActionPerformed(evt);
@@ -1221,9 +1216,10 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private void BtnRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnRemoveMouseClicked
         // TODO add your handling code here:
         String ID = PersonalID.getText();
+        String fullname = Fullname.getText();
         String status = StatusComboBox.getSelectedItem().toString();
         
-         if (ID.isEmpty()){
+        if (ID.isEmpty() == true && fullname.isEmpty() == true){
             JOptionPane.showMessageDialog(this, "Please provide information!");
             return;
         }

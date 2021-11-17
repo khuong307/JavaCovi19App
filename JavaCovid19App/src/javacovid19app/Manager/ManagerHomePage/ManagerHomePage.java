@@ -40,6 +40,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
     ArrayList <TreatmentFacility> treatmentFacilityList = new ArrayList<>();
     public ManagerHomePage() {
         initComponents();
+        this.setTitle("Manager HomePage");
         getArrayWardList();
         getArrayCityList();
         getArrayDistrictList();

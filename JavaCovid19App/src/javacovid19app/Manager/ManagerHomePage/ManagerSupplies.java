@@ -35,6 +35,8 @@ public class ManagerSupplies extends javax.swing.JFrame {
     private int type = 1;
     public ManagerSupplies() {
         initComponents();
+        this.setResizable(false);
+        this.setTitle("Supplies Management");
         getNecessariesData();
         
         Name.setText("");
@@ -691,7 +693,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
         String[] options = new String[2];
         options[0] = "Yes";
         options[1] = "No";
-        int choice = JOptionPane.showOptionDialog(null, "Reason to remove?", "Remove Confirm", 2, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int choice = JOptionPane.showOptionDialog(null, "Do you want to remove this supply?", "Remove Confirm", 2, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         if (choice == 0){
             this.necessaryList.remove(index);
             try{
@@ -738,8 +740,8 @@ public class ManagerSupplies extends javax.swing.JFrame {
         String expired = Expired.getText();
         String price = Price.getText();
         
-        if (name.isEmpty() || limit.isEmpty() || expired.isEmpty() || price.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please provide full information!");
+        if (name.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please provide supply's name!");
             return;
         }
         
