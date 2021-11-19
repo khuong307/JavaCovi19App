@@ -281,6 +281,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         BtnSave = new javax.swing.JLabel();
         BtnCheck = new javax.swing.JLabel();
         BtnRemove = new javax.swing.JLabel();
+        BtnSearchInvolved = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -488,6 +489,14 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 640, 130, 40));
+
+        BtnSearchInvolved.setText(" ");
+        BtnSearchInvolved.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnSearchInvolvedMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnSearchInvolved, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 520, 40, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCovidInvolvedBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
@@ -1145,6 +1154,23 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                     updateCurrentStatus(changeID, changeStatus);
                     editAffectTo(changeID, changeStatus); // similarly to F2 -> F1
                     updateF3toF2();
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                        Statement state = connect.createStatement();
+                        
+                        //insert to covid history
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = new Date();
+                        String arriveTime = formatter.format(date).toString();
+                        String newCovidHistory = " insert into CovidHistory  (UserID, BeginTime, Status, InvolvedPerson)"
+                                    + " values ('"+changeID+"', '"+arriveTime+"', '"+changeStatus+"', '"+changeInvolved+"' )";
+                        state.execute(newCovidHistory);
+                        connect.close();
+                        
+                    }catch(Exception e){
+                         System.out.println(e.getMessage());
+                    }
                 }
             }
             
@@ -1180,6 +1206,20 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                         String oldTreatment = "Update TreatmentFacility set PresentQuantity = '"+oldQuantity+"' where FacilityID = '"+oldTreamentPlace+"'";
                         state.executeUpdate(oldTreatment);
                         
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        String arriveTime = formatter.format(date).toString();
+                        
+                        String leaveTime = "Update TreatmentHistory set LeaveTime = '"+arriveTime+"' where UserID = '"+changeID+"' and LeaveTime is null";
+                        state.executeUpdate(leaveTime);
+                        
+                        String treatmentHis = " insert into TreatmentHistory  (UserID, ArriveTime, FacilityID)"
+                                        + " values ('"+changeID+"', '"+arriveTime+"', '"+newTreat.getID()+"')";
+                        state.execute(treatmentHis);
+                        
+                        
+                
+                        connect.close();
                     }catch(Exception e){
                          System.out.println(e.getMessage());
                     }
@@ -1295,6 +1335,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                 state.executeUpdate(sql_recover);
 
                 connect.close();
+                
             }catch(Exception e){
             System.out.println(e.getMessage());
             }
@@ -1302,6 +1343,41 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         }
         refreshJTable();
     }//GEN-LAST:event_BtnRemoveMouseClicked
+
+    private void BtnSearchInvolvedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchInvolvedMouseClicked
+        // TODO add your handling code here:
+        
+        String info  = RelatedComboBox.getSelectedItem().toString();
+        if (info.compareTo("-----------------") == 0){
+            JOptionPane.showMessageDialog(this, "invalid Information!");
+            return;
+        }
+        String tmp [] = info.split(" - ");
+        
+        String ID = new String (tmp[0]);
+        
+        if (ID.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please provide information!");
+            return;
+        }
+        int index = -1;
+        for (int i = 0; i < this.managedUserList.size(); i++){
+            if (this.managedUserList.get(i).getID().compareTo(ID) == 0){
+                index = i;
+                break;
+            }
+        }
+        
+        if (index == -1){
+            JOptionPane.showMessageDialog(this, "Not found!");
+            return;
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Found!");
+            jTable_Display_User.setRowSelectionInterval(index, index);
+            return;
+        }
+    }//GEN-LAST:event_BtnSearchInvolvedMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1345,6 +1421,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private javax.swing.JLabel BtnRefreshDetail;
     private javax.swing.JLabel BtnRemove;
     private javax.swing.JLabel BtnSave;
+    private javax.swing.JLabel BtnSearchInvolved;
     private javax.swing.JLabel BtnSearchRelated;
     private javax.swing.JLabel BtnSortList;
     private CustomComboBox.ComboBox CityComboBox;

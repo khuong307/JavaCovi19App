@@ -326,7 +326,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 PolarFStatusChartMouseClicked(evt);
             }
         });
-        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 290, 270));
+        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 80, 290, 270));
 
         barChartCity.setOpaque(false);
         barChartCity.addMouseListener(new java.awt.event.MouseAdapter() {
