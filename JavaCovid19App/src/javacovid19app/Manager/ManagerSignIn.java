@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javacovid19app.HomePage.HomePage;
 import javacovid19app.Manager.ManagerHomePage.ManagerHomePage;
 import javax.swing.JOptionPane;
@@ -104,6 +106,12 @@ public class ManagerSignIn extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Login successfully.");
                         ManagerHomePage managerHomepage = new ManagerHomePage();
                         managerHomepage.show();
+                        
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        String loginTime = formatter.format(date).toString();
+                        String loginHis = "INSERT INTO LoginHistory (UserID, LoginTime) "+"VALUES ('"+username+"', '"+loginTime+"')";
+                        state.execute(loginHis);
                         dispose();
                     }
                     else{
