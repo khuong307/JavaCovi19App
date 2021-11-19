@@ -11,7 +11,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import javacovid19app.HomePage.HomePage;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Account;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.City;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.District;
@@ -31,6 +34,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
     /**
      * Creates new form ManagerHomePage
      */
+    
     private ArrayList <Ward> wardList = new ArrayList<>(); 
     private ArrayList <City> cityList = new ArrayList<>(); 
     private ArrayList <District> districtList = new ArrayList<>(); 
@@ -273,6 +277,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
         barChartCity = new BarChartAnimation.BarChart();
         BtnInvolvePeopleFeature = new javax.swing.JLabel();
         BtnSupplies = new javax.swing.JLabel();
+        BtnLogout = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -308,6 +313,14 @@ public class ManagerHomePage extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSupplies, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 630, 140, 50));
 
+        BtnLogout.setText(" ");
+        BtnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnLogoutMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 30, 40, 40));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomePageBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
@@ -337,6 +350,33 @@ public class ManagerHomePage extends javax.swing.JFrame {
         supplies.show();
         dispose();
     }//GEN-LAST:event_BtnSuppliesMouseClicked
+
+    private void BtnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLogoutMouseClicked
+        // TODO add your handling code here:
+        try {
+                //use SQL Query to update admin password.
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Statement state = connect.createStatement();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                String logoutTime = formatter.format(date).toString();
+                String loginHis = "update LoginHistory set LogoutTime = '"+logoutTime+"' where LogoutTime is null";
+                state.executeUpdate(loginHis);
+                connect.close();
+                JOptionPane.showMessageDialog(this, "Log out the system!");
+                
+                //back to homepage choose actor.
+                HomePage home = new HomePage();
+                home.show();
+                dispose();
+                
+                
+            }catch(Exception e){
+            System.out.println(e.getMessage());
+            }
+    }//GEN-LAST:event_BtnLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -375,6 +415,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnInvolvePeopleFeature;
+    private javax.swing.JLabel BtnLogout;
     private javax.swing.JLabel BtnSupplies;
     private PolarChart.PolarAreaChart PolarFStatusChart;
     private BarChartAnimation.BarChart barChartCity;

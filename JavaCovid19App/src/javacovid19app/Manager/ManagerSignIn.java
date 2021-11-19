@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  * @author IVS-P0005
  */
 public class ManagerSignIn extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form ManagerSignIn
      */
@@ -96,22 +96,23 @@ public class ManagerSignIn extends javax.swing.JFrame {
                 Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
-                String sql = "Select Password from Account where UserID = '"+username+"' and Type = 2";
+                String sql = "Select Password from Account where UserID = '"+username+"' and Type = 2 and Status = 1";
                 ResultSet res = state.executeQuery(sql);
 
                 if (res.next()){
                     String real_pass = res.getString(1);
-                    System.out.println(real_pass);
                     if (BCrypt.checkpw(password, real_pass) == true){
                         JOptionPane.showMessageDialog(this, "Login successfully.");
                         ManagerHomePage managerHomepage = new ManagerHomePage();
-                        managerHomepage.show();
+                        
                         
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date();
                         String loginTime = formatter.format(date).toString();
                         String loginHis = "INSERT INTO LoginHistory (UserID, LoginTime) "+"VALUES ('"+username+"', '"+loginTime+"')";
                         state.execute(loginHis);
+                        
+                        managerHomepage.show();
                         dispose();
                     }
                     else{
@@ -181,4 +182,5 @@ public class ManagerSignIn extends javax.swing.JFrame {
     private javax.swing.JPasswordField ManagerPassword;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+
 }
