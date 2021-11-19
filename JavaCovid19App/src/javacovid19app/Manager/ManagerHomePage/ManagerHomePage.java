@@ -21,6 +21,7 @@ import javacovid19app.Manager.ManagerHomePage.DataClasses.District;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Location;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.ManagedUser;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.TreatmentFacility;
+import javacovid19app.Manager.ManagerHomePage.DataClasses.TreatmentHistory;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Ward;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -41,7 +42,9 @@ public class ManagerHomePage extends javax.swing.JFrame {
     private ArrayList <Location> locateList = new ArrayList<>(); 
     private ArrayList <ManagedUser> managedUserList = new ArrayList<>(); 
     private ArrayList <Account> accountList = new ArrayList<>(); 
-    ArrayList <TreatmentFacility> treatmentFacilityList = new ArrayList<>();
+    private ArrayList <TreatmentFacility> treatmentFacilityList = new ArrayList<>();
+    private ArrayList <TreatmentHistory> treatmentHistotyList = new ArrayList<>(); 
+    
     public ManagerHomePage() {
         initComponents();
         this.setTitle("Manager HomePage");
@@ -50,9 +53,9 @@ public class ManagerHomePage extends javax.swing.JFrame {
         getArrayDistrictList();
         getArrayLocationList();
         getFacilityList();
-        
         getManagedUserList();
         getAccountList();
+        getTreatmentHistoryList();
         
         
         //chart statistic about disease, recover , treamenting.
@@ -78,20 +81,33 @@ public class ManagerHomePage extends javax.swing.JFrame {
         int still_treament = calcStatus("1");
         int recover = calcStatus("2");
         PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (181, 14, 20), "Disease", disease));
-        PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (240, 219, 84), "Treament", still_treament));
+        PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (240, 219, 84), "Involved", still_treament));
         PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (65, 181, 94), "Recover", recover));
         PolarFStatusChart.start();
     }
   
     
     
-    //calculate number people in a city.
-    public int numberPeopleStatusInCity(ArrayList <ManagedUser> managedUserList, String CityName, String status){
-        int count = 0;
-        for (int i = 0; i < managedUserList.size(); i++){
-            if (managedUserList.get(i).getCity().getName().compareTo(CityName) == 0 && managedUserList.get(i).getCurrentStatus().compareTo(status) == 0){
-                count++;
+    public String getStatus(String ID){
+        for (int i = 0; i < this.managedUserList.size(); i++){
+            if (this.managedUserList.get(i).getID().compareTo(ID) == 0){
+                return this.managedUserList.get(i).getCurrentStatus();
             }
+        }
+        return "";
+    }
+    //calculate number people in a city.
+    public int numberPeopleStatusInQuarter(ArrayList <TreatmentHistory> treatmentHistotyList, int quarter, String status){
+        int count = 0;
+        for (int i = 0; i < treatmentHistotyList.size(); i++){
+           String[] time = treatmentHistotyList.get(i).getArriveTime().split("-");
+           String month = new String (time[1]);
+           String currentStatus = getStatus(treatmentHistotyList.get(i).getUserID());
+         
+           if ((quarter == ((Integer.valueOf(month) - 1) / 3) + 1) && status.compareTo(currentStatus)==0){
+               count++;
+           }
+           
         }
         return count;
     }
@@ -101,13 +117,13 @@ public class ManagerHomePage extends javax.swing.JFrame {
         barChartCity.addLegend("F1", new Color(135, 189, 245));
         barChartCity.addLegend("F2", new Color(189, 135, 245));
         barChartCity.addLegend("F3", new Color(139, 229, 222));
-        
-        for (int i = 0; i < this.cityList.size(); i++){
-            int f0 = numberPeopleStatusInCity(this.managedUserList, cityList.get(i).getName(), "F0");
-            int f1 = numberPeopleStatusInCity(this.managedUserList, cityList.get(i).getName(), "F1");
-            int f2 = numberPeopleStatusInCity(this.managedUserList, cityList.get(i).getName(), "F2");
-            int f3 = numberPeopleStatusInCity(this.managedUserList, cityList.get(i).getName(), "F3");
-            barChartCity.addData(new ModelChart(cityList.get(i).getName(), new double[]{f0, f1, f2, f3}));
+        String quater [] = {"Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4"};
+        for (int i = 1; i < 5; i++){
+            int f0 = numberPeopleStatusInQuarter(this.treatmentHistotyList, i, "F0");
+            int f1 = numberPeopleStatusInQuarter(this.treatmentHistotyList, i, "F1");
+            int f2 = numberPeopleStatusInQuarter(this.treatmentHistotyList, i, "F2");
+            int f3 = numberPeopleStatusInQuarter(this.treatmentHistotyList, i, "F3");
+            barChartCity.addData(new ModelChart(quater[i-1], new double[]{f0, f1, f2, f3}));
         }
         barChartCity.start();
     }
@@ -127,6 +143,27 @@ public class ManagerHomePage extends javax.swing.JFrame {
             while(res.next()){
                 tmp = new TreatmentFacility (res.getString("FacilityID"), res.getString("Name"),res.getString("Quantity"), res.getString("PresentQuantity")); 
                 this.treatmentFacilityList.add(tmp);
+            }
+            connect.close();
+           }catch(Exception e){
+           System.out.println(e.getMessage());
+        }
+    }
+    
+    //get TreatmentHistory List
+    public void getTreatmentHistoryList(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+
+            String sql = "Select * from TreatmentHistory ";
+            ResultSet res = state.executeQuery(sql);
+            
+            TreatmentHistory tmp;
+            while(res.next()){
+                tmp = new TreatmentHistory (res.getString("UserID"), res.getString("ArriveTime"),res.getString("FacilityID"), res.getString("LeaveTime")); 
+                this.treatmentHistotyList.add(tmp);
             }
             connect.close();
            }catch(Exception e){
@@ -289,7 +326,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 PolarFStatusChartMouseClicked(evt);
             }
         });
-        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 290, 270));
+        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 290, 270));
 
         barChartCity.setOpaque(false);
         barChartCity.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,7 +334,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 barChartCityMouseClicked(evt);
             }
         });
-        getContentPane().add(barChartCity, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 110, 610, 290));
+        getContentPane().add(barChartCity, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, 580, 260));
 
         BtnInvolvePeopleFeature.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

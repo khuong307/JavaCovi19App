@@ -10,8 +10,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Account;
@@ -62,6 +64,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         SetComboBoxCity();
         SetComboBoxTreament();
         
+        
         //edit size of column
         jTable_Display_User.getTableHeader().setFont(new Font("Fredoka One", Font.PLAIN, 14));
         final TableColumnModel columnModel = jTable_Display_User.getColumnModel();
@@ -77,6 +80,8 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
+    
+    
     
     public void SetComboBoxCity(){
             for(int i = 0; i < this.cityList.size(); i++){
@@ -791,9 +796,23 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                 String quantity = "Update TreatmentFacility set PresentQuantity = '"+present_quantity+"' where FacilityID = '"+facilityID+"'";
                 state.executeUpdate(quantity);
                 
+                // add to Treatmenthistory table in database
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                String arriveTime = formatter.format(date).toString();
+                String treatmentHis = " insert into TreatmentHistory  (UserID, ArriveTime, FacilityID)"
+                                + " values ('"+ID+"', '"+arriveTime+"', '"+facilityID+"')";
+                state.execute(treatmentHis);
+                
                 connect.close();
+                
                 JOptionPane.showMessageDialog(this, "Add new user successful!");
                 int size = this.managedUserList.size() - 1;
+                
+                
+                
+                
+      
                 jTable_Display_User.setRowSelectionInterval(size, size);
             }catch(Exception e){
             System.out.println(e.getMessage());
@@ -1171,8 +1190,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             refreshJTable();
             
         }
-        
-        
     }//GEN-LAST:event_BtnSaveMouseClicked
 
     private void BtnCheckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCheckMouseClicked
