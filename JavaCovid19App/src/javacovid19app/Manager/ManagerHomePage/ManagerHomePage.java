@@ -356,9 +356,9 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 BtnLogoutMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 30, 40, 40));
+        getContentPane().add(BtnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 20, 60, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomePageBackground.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomeBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         pack();
