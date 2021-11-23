@@ -13,6 +13,7 @@ import java.util.Date;
 import javacovid19app.HomePage.HomePage;
 import javacovid19app.Manager.ManagerHomePage.ManagerHomePage;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
@@ -24,6 +25,7 @@ public class ManagerSignIn extends javax.swing.JFrame {
     /**
      * Creates new form ManagerSignIn
      */
+    private final Logger logger = Logger.getLogger(ManagerSignIn.class);
     public ManagerSignIn() {
         initComponents();
         this.setResizable(false); // can not fix size of a Frame;
@@ -128,8 +130,10 @@ public class ManagerSignIn extends javax.swing.JFrame {
                     }
                 connect.close();
             }catch(Exception e){
+                logger.error("Error with manager's account in the database.");
             System.out.println(e.getMessage());
             }
+            logger.info("Manager sign in the system.");
         }
     }//GEN-LAST:event_BtnManagerSigninMouseClicked
 

@@ -14,8 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Account;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.City;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.District;
@@ -29,7 +28,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import org.apache.log4j.Logger;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
 
 /**
  *
@@ -40,6 +41,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     /**
      * Creates new form ManagerCovid19InvolvedPeople
      */
+    private final Logger logger = Logger.getLogger(ManagerCovid19InvolvedPeople.class);
     private ArrayList <Ward> wardList = new ArrayList<>(); 
     private ArrayList <City> cityList = new ArrayList<>(); 
     private ArrayList <District> districtList = new ArrayList<>(); 
@@ -292,6 +294,11 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         PersonalID.setForeground(new java.awt.Color(250, 179, 40));
         PersonalID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         PersonalID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        PersonalID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PersonalIDActionPerformed(evt);
+            }
+        });
         getContentPane().add(PersonalID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 190, 30));
 
         Fullname.setBackground(new java.awt.Color(20, 31, 53));
@@ -499,7 +506,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         getContentPane().add(BtnSearchInvolved, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 520, 40, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCovidInvolvedBackground.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1272,18 +1279,29 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     }
     private void BtnRemoveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnRemoveMouseClicked
         // TODO add your handling code here:
+        
         String ID = PersonalID.getText();
         String fullname = Fullname.getText();
-        String status = StatusComboBox.getSelectedItem().toString();
         
-        if (ID.isEmpty() == true && fullname.isEmpty() == true){
+        String status = "";
+        
+        
+        if (ID.isEmpty() && fullname.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please provide information!");
             return;
         }
         
+        
         if (checkExist(ID) == 0){
             JOptionPane.showMessageDialog(this, "Personal ID does not exist!");
             return;
+        }
+        
+        try{
+            status = StatusComboBox.getSelectedItem().toString();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            logger.error("Error with remove an involved person!");
         }
         
         if (status.compareTo("F0") != 0){
@@ -1342,6 +1360,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             this.managedUserList.remove(index);
         }
         refreshJTable();
+        
     }//GEN-LAST:event_BtnRemoveMouseClicked
 
     private void BtnSearchInvolvedMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchInvolvedMouseClicked
@@ -1370,14 +1389,21 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         
         if (index == -1){
             JOptionPane.showMessageDialog(this, "Not found!");
+            logger.info("Search involved people function.");
             return;
         }
         else{
             JOptionPane.showMessageDialog(this, "Found!");
             jTable_Display_User.setRowSelectionInterval(index, index);
+            logger.info("Search involved people function.");
             return;
         }
+        
     }//GEN-LAST:event_BtnSearchInvolvedMouseClicked
+
+    private void PersonalIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PersonalIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PersonalIDActionPerformed
 
     /**
      * @param args the command line arguments

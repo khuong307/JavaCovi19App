@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -31,6 +32,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
     /**
      * Creates new form ManagerSupplies
      */
+    private final Logger logger = Logger.getLogger(ManagerSupplies.class);
     private ArrayList <Necessary> necessaryList = new ArrayList<>();
     private int type = 1;
     public ManagerSupplies() {
@@ -74,7 +76,9 @@ public class ManagerSupplies extends javax.swing.JFrame {
                 this.necessaryList.add(tmp);
             }
             connect.close();
+            logger.debug("Debug in getNecessariesData()");
            }catch(Exception e){
+              logger.error("Error when get Necessaries in database.");
            System.out.println(e.getMessage());
         }
     }
@@ -101,6 +105,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
                 model.addRow(row);
             }
         }
+        logger.debug("Info in ShowInstantFoodsList()");
     }
 //    
     public void ShowFruitList(){
