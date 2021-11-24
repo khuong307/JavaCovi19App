@@ -4,13 +4,9 @@
  */
 package javacovid19app.ManagedUser.ManagedUserHomePage;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javacovid19app.HomePage.*;
 
-/**
- *
- * @author DELL
- */
 public class ManagedUserHomePage extends javax.swing.JFrame {
 
     /**
@@ -31,71 +27,71 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        BtnUserInfo = new javax.swing.JLabel();
-        BtnUserSupplies = new javax.swing.JLabel();
-        BtnUserTransaction = new javax.swing.JLabel();
+        BtnInfo = new javax.swing.JLabel();
+        BtnSupplies = new javax.swing.JLabel();
+        BtnTransaction = new javax.swing.JLabel();
         BtnBackSignIn = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        BtnUserInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtnInfo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnUserInfoMouseClicked(evt);
+                BtnInfoMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 150, 40));
+        getContentPane().add(BtnInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 240, 50));
 
-        BtnUserSupplies.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtnSupplies.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnUserSuppliesMouseClicked(evt);
+                BtnSuppliesMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserSupplies, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 460, 100, 40));
+        getContentPane().add(BtnSupplies, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 224, 160, 60));
 
-        BtnUserTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtnTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnUserTransactionMouseClicked(evt);
+                BtnTransactionMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 660, 140, 40));
+        getContentPane().add(BtnTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 234, 220, 50));
 
         BtnBackSignIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnBackSignInMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnBackSignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 24, 50, 50));
+        getContentPane().add(BtnBackSignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 14, 60, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Desktop\\JavaCovidApp\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\ManagedUserHomePage.png")); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 0, 1280, 720));
+        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\ManagedUserHomePage.png")); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnUserInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUserInfoMouseClicked
+    private void BtnInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnInfoMouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "Continue...");
-    }//GEN-LAST:event_BtnUserInfoMouseClicked
+    }//GEN-LAST:event_BtnInfoMouseClicked
 
-    private void BtnUserSuppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUserSuppliesMouseClicked
+    private void BtnSuppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSuppliesMouseClicked
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "Continue...");
-    }//GEN-LAST:event_BtnUserSuppliesMouseClicked
+    }//GEN-LAST:event_BtnSuppliesMouseClicked
+
+    private void BtnTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnTransactionMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Continue...");
+    }//GEN-LAST:event_BtnTransactionMouseClicked
 
     private void BtnBackSignInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackSignInMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Log out the system!");
         HomePage homepage = new HomePage();
+        JOptionPane.showMessageDialog(this, "Log out the system!");
         homepage.show();
         dispose();
     }//GEN-LAST:event_BtnBackSignInMouseClicked
-
-    private void BtnUserTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUserTransactionMouseClicked
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Continue...");
-    }//GEN-LAST:event_BtnUserTransactionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -134,9 +130,9 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnBackSignIn;
-    private javax.swing.JLabel BtnUserInfo;
-    private javax.swing.JLabel BtnUserSupplies;
-    private javax.swing.JLabel BtnUserTransaction;
+    private javax.swing.JLabel BtnInfo;
+    private javax.swing.JLabel BtnSupplies;
+    private javax.swing.JLabel BtnTransaction;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
