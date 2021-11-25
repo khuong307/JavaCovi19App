@@ -6,6 +6,7 @@ package javacovid19app.ManagedUser.ManagedUserHomePage;
 
 import javax.swing.JOptionPane;
 import javacovid19app.HomePage.*;
+import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.InformationMenu;
 
 /**
  *
@@ -13,15 +14,20 @@ import javacovid19app.HomePage.*;
  */
 public class ManagedUserHomePage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ManagedUserHomePage
-     */
+    String userID="";
     public ManagedUserHomePage() {
         initComponents();
         this.setResizable(false); // can not fix size of a Frame;
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
-
+    
+    public ManagedUserHomePage(String username) {
+        this.userID=username;
+        System.out.println(userID);
+        initComponents();
+        this.setResizable(false); // can not fix size of a Frame;
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,7 +82,9 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
 
     private void BtnUserInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUserInfoMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Continue...");
+        InformationMenu infoMenu=new InformationMenu(userID);
+        this.dispose();
+        infoMenu.show();
     }//GEN-LAST:event_BtnUserInfoMouseClicked
 
     private void BtnUserSuppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnUserSuppliesMouseClicked

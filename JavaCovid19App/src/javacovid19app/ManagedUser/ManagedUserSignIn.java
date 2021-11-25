@@ -107,7 +107,7 @@ public class ManagedUserSignIn extends javax.swing.JFrame {
                     System.out.println(real_pass);
                     if (BCrypt.checkpw(password, real_pass) == true) {
                         JOptionPane.showMessageDialog(this, "Login successfully.");
-                        ManagedUserHomePage homepage = new ManagedUserHomePage();
+                        ManagedUserHomePage homepage = new ManagedUserHomePage(username);
                         
                         homepage.show();
                         dispose();
