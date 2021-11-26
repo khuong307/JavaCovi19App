@@ -23,8 +23,11 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         this.setResizable(false); // can not fix size of a Frame;
         this.setTitle("Covid History");
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-        getCovidHistoryList();
-        show_historyCovid();
+        
+        statusTextField.setEditable(false);
+        beginTimeTextField.setEditable(false);
+        endTimeTextField.setEditable(false);
+        involvedPersonTextField.setEditable(false);
     }
     
     public CovidHistoryMenu(String username,ArrayList <ManagedUser>List){
@@ -34,6 +37,11 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         this.userID=username;
         this.managedUserList=List;
+        
+        statusTextField.setEditable(false);
+        beginTimeTextField.setEditable(false);
+        endTimeTextField.setEditable(false);
+        involvedPersonTextField.setEditable(false);
      
         getCovidHistoryList();
         show_historyCovid();
@@ -96,12 +104,12 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         backLabel = new javax.swing.JLabel();
-        statusButton = new javax.swing.JButton();
-        beginTimeButton = new javax.swing.JButton();
-        endTimeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         covidHistoryTable = new javax.swing.JTable();
         involvedPersonTextField = new javax.swing.JTextField();
+        statusTextField = new javax.swing.JTextField();
+        beginTimeTextField = new javax.swing.JTextField();
+        endTimeTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -114,16 +122,7 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         });
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 60, 60));
 
-        statusButton.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        getContentPane().add(statusButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 150, 30));
-
-        beginTimeButton.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        getContentPane().add(beginTimeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 261, 150, 30));
-
-        endTimeButton.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        getContentPane().add(endTimeButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 341, 150, 30));
-
-        covidHistoryTable.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        covidHistoryTable.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         covidHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -141,8 +140,20 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 126, 470, 310));
 
-        involvedPersonTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        involvedPersonTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         getContentPane().add(involvedPersonTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, 150, 30));
+
+        statusTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        statusTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 150, 30));
+
+        beginTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        beginTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(beginTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 150, 30));
+
+        endTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        endTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(endTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 150, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\Desktop\\JavaCovi19App-Khang\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\Infomation\\CovidHistory\\CovidHistoryBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 540));
@@ -157,9 +168,9 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
     private void covidHistoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_covidHistoryTableMouseClicked
         int i = covidHistoryTable.getSelectedRow();
         TableModel model=covidHistoryTable.getModel();
-        statusButton.setText(model.getValueAt(i, 0).toString());
-        beginTimeButton.setText(model.getValueAt(i, 1).toString());
-        endTimeButton.setText(model.getValueAt(i, 2).toString());
+        statusTextField.setText(model.getValueAt(i, 0).toString());
+        beginTimeTextField.setText(model.getValueAt(i, 1).toString());
+        endTimeTextField.setText(model.getValueAt(i, 2).toString());
         involvedPersonTextField.setText(model.getValueAt(i, 3).toString());
     }//GEN-LAST:event_covidHistoryTableMouseClicked
 
@@ -201,12 +212,12 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel backLabel;
-    private javax.swing.JButton beginTimeButton;
+    private javax.swing.JTextField beginTimeTextField;
     private javax.swing.JTable covidHistoryTable;
-    private javax.swing.JButton endTimeButton;
+    private javax.swing.JTextField endTimeTextField;
     private javax.swing.JTextField involvedPersonTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton statusButton;
+    private javax.swing.JTextField statusTextField;
     // End of variables declaration//GEN-END:variables
 }
