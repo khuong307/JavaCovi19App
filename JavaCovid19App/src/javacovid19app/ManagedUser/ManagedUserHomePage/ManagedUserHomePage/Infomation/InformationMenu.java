@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javacovid19app.HomePage.HomePage;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.CovidHistory.CovidHistoryMenu;
+import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Treatment.UserTreatmentMenu;
 import javacovid19app.ManagedUser.ManagedUserHomePage.ManagedUserHomePage;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.City;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.District;
@@ -361,7 +362,8 @@ public class InformationMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_logOutLabelMouseClicked
 
     private void treatmentLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_treatmentLabelMouseClicked
-        JOptionPane.showMessageDialog(this, "continue....");
+        UserTreatmentMenu userTreatmentMenu=new UserTreatmentMenu(userID);
+        userTreatmentMenu.show();
     }//GEN-LAST:event_treatmentLabelMouseClicked
 
     private void consumeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consumeLabelMouseClicked
