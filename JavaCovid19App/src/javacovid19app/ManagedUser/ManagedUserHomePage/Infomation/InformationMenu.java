@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javacovid19app.HomePage.HomePage;
+import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.CovidHistory.CovidHistoryMenu;
 import javacovid19app.ManagedUser.ManagedUserHomePage.ManagedUserHomePage;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.City;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.District;
@@ -41,7 +42,7 @@ public class InformationMenu extends javax.swing.JFrame {
         this.setResizable(false); // can not fix size of a Frame;
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         
-        this.setTitle("Covid 19 Involved People Management");
+        this.setTitle("Covid 19 User Information");
         getArrayWardList();
         getArrayCityList();
         getArrayDistrictList();
@@ -59,8 +60,17 @@ public class InformationMenu extends javax.swing.JFrame {
         this.setResizable(false); // can not fix size of a Frame;
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         
+        personalIDTextField.setEditable(false);
+        fullNameTextField.setEditable(false);
+        yobTextField.setEditable(false);
+        cityTextField.setEditable(false);
+        districtTextField.setEditable(false);
+        wardTextField.setEditable(false);
+        statusTextField.setEditable(false);
+        balanceTextField.setEditable(false);
+        relatedTextField.setEditable(false);
         
-        this.setTitle("Covid 19 Involved People Management");
+        this.setTitle("Covid 19 User Information");
         getArrayWardList();
         getArrayCityList();
         getArrayDistrictList();
@@ -295,39 +305,39 @@ public class InformationMenu extends javax.swing.JFrame {
         });
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 50, 40));
 
-        personalIDTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        personalIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         personalIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(personalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 230, 30));
 
-        yobTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        yobTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         yobTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(yobTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 230, 30));
 
-        cityTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        cityTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         cityTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(cityTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 369, 230, 30));
 
-        districtTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        districtTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         districtTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(districtTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 230, 40));
 
-        wardTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        wardTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         wardTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(wardTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, 230, 30));
 
-        statusTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        statusTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         statusTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 230, 30));
 
-        balanceTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         balanceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(balanceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 589, 230, 30));
 
-        relatedTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        relatedTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         relatedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(relatedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 639, 230, 30));
 
-        fullNameTextField.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        fullNameTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         fullNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(fullNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 269, 230, 30));
 
@@ -359,7 +369,8 @@ public class InformationMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_consumeLabelMouseClicked
 
     private void covidLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_covidLabelMouseClicked
-        JOptionPane.showMessageDialog(this, "continue....");
+        CovidHistoryMenu covidMenu=new CovidHistoryMenu(userID,managedUserList);
+        covidMenu.show();
     }//GEN-LAST:event_covidLabelMouseClicked
 
     private void transactionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionLabelMouseClicked
