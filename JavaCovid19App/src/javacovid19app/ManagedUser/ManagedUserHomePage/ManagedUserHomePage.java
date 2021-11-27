@@ -6,6 +6,7 @@ package javacovid19app.ManagedUser.ManagedUserHomePage;
 
 import javax.swing.*;
 import javacovid19app.HomePage.*;
+import javacovid19app.ManagedUser.ManagedUserSupplies.*;
 
 public class ManagedUserHomePage extends javax.swing.JFrame {
 
@@ -77,7 +78,9 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
 
     private void BtnSuppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSuppliesMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Continue...");
+        ManagedUserSupplies sup = new ManagedUserSupplies();
+        sup.show();
+        dispose();
     }//GEN-LAST:event_BtnSuppliesMouseClicked
 
     private void BtnTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnTransactionMouseClicked
