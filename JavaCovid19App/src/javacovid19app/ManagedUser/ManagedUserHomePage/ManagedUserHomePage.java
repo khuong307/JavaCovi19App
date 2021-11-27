@@ -4,6 +4,14 @@
  */
 package javacovid19app.ManagedUser.ManagedUserHomePage;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javacovid19app.HomePage.*;
 import javacovid19app.ManagedUser.ManagedUserSupplies.*;
@@ -89,11 +97,28 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnTransactionMouseClicked
 
     private void BtnBackSignInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackSignInMouseClicked
-        // TODO add your handling code here:
-        HomePage homepage = new HomePage();
-        JOptionPane.showMessageDialog(this, "Log out the system!");
-        homepage.show();
-        dispose();
+        try {
+            // TODO add your handling code here:
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            String logoutTime = formatter.format(date).toString();
+            String loginHis = "update LoginHistory set LogoutTime = '" + logoutTime + "' where LogoutTime is null";
+            state.executeUpdate(loginHis);
+            connect.close();
+            
+            HomePage homepage = new HomePage();
+            JOptionPane.showMessageDialog(this, "Log out the system!");
+            homepage.show();
+            dispose();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManagedUserHomePage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagedUserHomePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnBackSignInMouseClicked
 
     /**

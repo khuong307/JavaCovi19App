@@ -109,6 +109,12 @@ public class ManagedUserSignIn extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "Login successfully.");
                         ManagedUserHomePage homepage = new ManagedUserHomePage();
                         
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        String loginTime = formatter.format(date).toString();
+                        String loginHis = "INSERT INTO LoginHistory (UserID, LoginTime) "+"VALUES ('"+username+"', '"+loginTime+"')";
+                        state.execute(loginHis);
+                        
                         homepage.show();
                         dispose();
                     } else {
