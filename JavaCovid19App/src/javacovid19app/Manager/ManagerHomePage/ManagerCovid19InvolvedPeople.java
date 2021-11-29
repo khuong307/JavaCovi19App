@@ -692,6 +692,13 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             return;
         }
         
+        for (int i = 0; i < this.managedUserList.size(); i++){
+            if (this.managedUserList.get(i).getID().compareTo(ID) == 0){
+                JOptionPane.showMessageDialog(this, "Personal's id already exist!");
+                return;
+            }
+        }
+        
         if (status.compareTo("F0") != 0 && (involved.compareTo("null") == 0 || involved.compareTo("NULL") == 0)){
             JOptionPane.showMessageDialog(this, "F1, F2, F3 must have invovled person!");
             return;
@@ -709,12 +716,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         }
         
         
-        for (int i = 0; i < this.managedUserList.size(); i++){
-            if (this.managedUserList.get(i).getID().compareTo(ID) == 0){
-                JOptionPane.showMessageDialog(this, "Personal's id already exist!");
-                return;
-            }
-        }
+        
         
         // f3 -> f2, f2 -> f1 check
         
@@ -824,11 +826,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                 
                 JOptionPane.showMessageDialog(this, "Add new user successful!");
                 int size = this.managedUserList.size() - 1;
-                
-                
-                
-                
-      
+             
                 jTable_Display_User.setRowSelectionInterval(size, size);
             }catch(Exception e){
             System.out.println(e.getMessage());
@@ -1223,9 +1221,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                         String treatmentHis = " insert into TreatmentHistory  (UserID, ArriveTime, FacilityID)"
                                         + " values ('"+changeID+"', '"+arriveTime+"', '"+newTreat.getID()+"')";
                         state.execute(treatmentHis);
-                        
-                        
-                
                         connect.close();
                     }catch(Exception e){
                          System.out.println(e.getMessage());
