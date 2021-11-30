@@ -267,7 +267,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         else{
             for (int i = 0; i < this.lst.size(); i++){
                 Necessary tmp = this.lst.get(i);
-                String necName = tmp.getName();
+                String necName = tmp.getName().split(" \\(")[0];
                 if (necName.toLowerCase().contains(name.toLowerCase()))
                     res.add(tmp);
             }
