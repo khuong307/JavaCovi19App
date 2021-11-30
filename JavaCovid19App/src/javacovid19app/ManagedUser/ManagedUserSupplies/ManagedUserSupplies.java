@@ -30,6 +30,7 @@ import javax.swing.table.TableColumnModel;
 public class ManagedUserSupplies extends javax.swing.JFrame {
 
     private ArrayList<Necessary> lst = new ArrayList<Necessary>();
+    private ArrayList<Necessary> temp = new ArrayList<Necessary>();
     
     public ManagedUserSupplies() {
         initComponents();
@@ -39,6 +40,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         refreshJTable();
         showData(this.lst);
         EditTableHeightWidth(this.TabSupplies);
+        temp = lst;
     }
     
     public void refreshJTable(){
@@ -113,18 +115,18 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public void sortById(boolean type){
         if (type){
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (lst.get(i).getID().compareTo(lst.get(j).getID()) > 0)
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (temp.get(i).getID().compareTo(temp.get(j).getID()) > 0)
+                        Collections.swap(temp, i, j);
                 }
             }
         }
         else{
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (lst.get(i).getID().compareTo(lst.get(j).getID()) < 0)
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (temp.get(i).getID().compareTo(temp.get(j).getID()) < 0)
+                        Collections.swap(temp, i, j);
                 }
             }
         }
@@ -132,18 +134,18 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public void sortByName(boolean type){
         if (type){
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (lst.get(i).getName().compareTo(lst.get(j).getName()) > 0)
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (temp.get(i).getName().compareTo(temp.get(j).getName()) > 0)
+                        Collections.swap(temp, i, j);
                 }
             }
         }
         else{
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (lst.get(i).getName().compareTo(lst.get(j).getName()) < 0)
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (temp.get(i).getName().compareTo(temp.get(j).getName()) < 0)
+                        Collections.swap(temp, i, j);
                 }
             }
         }
@@ -151,18 +153,18 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public void sortByPrice(boolean type){
         if (type){
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (Integer.valueOf(lst.get(i).getPrice()) > Integer.valueOf(lst.get(j).getPrice()))
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (Integer.valueOf(temp.get(i).getPrice()) > Integer.valueOf(temp.get(j).getPrice()))
+                        Collections.swap(temp, i, j);
                 }
             }
         }
         else{
-            for (int i = 0; i < lst.size()-1; i++){
-                for (int j = i+1; j < lst.size(); j++){
-                    if (Integer.valueOf(lst.get(i).getPrice()) < Integer.valueOf(lst.get(j).getPrice()))
-                        Collections.swap(lst, i, j);
+            for (int i = 0; i < temp.size()-1; i++){
+                for (int j = i+1; j < temp.size(); j++){
+                    if (Integer.valueOf(temp.get(i).getPrice()) < Integer.valueOf(temp.get(j).getPrice()))
+                        Collections.swap(temp, i, j);
                 }
             }
         }
@@ -256,20 +258,23 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         // TODO add your handling code here:
         String name = TextSearch.getText();
         ArrayList<Necessary> res = new ArrayList<Necessary>();
-        if (name.isEmpty())
-            JOptionPane.showMessageDialog(this, "Please fill in the name of the necessary!");
+        if (name.isEmpty()){
+            refreshJTable();
+            showData(lst);
+            EditTableHeightWidth(this.TabSupplies);
+            temp = lst;
+        }
         else{
             for (int i = 0; i < this.lst.size(); i++){
                 Necessary tmp = this.lst.get(i);
                 String necName = tmp.getName();
-                if (necName.toLowerCase().contains(name.toLowerCase())){
-                    System.out.println(tmp.getID());
+                if (necName.toLowerCase().contains(name.toLowerCase()))
                     res.add(tmp);
-                }
             }
             refreshJTable();
             showData(res);
             EditTableHeightWidth(this.TabSupplies);
+            temp = res;
         }
     }//GEN-LAST:event_BtnSearchMouseClicked
 
@@ -299,7 +304,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
         
         refreshJTable();
-        showData(lst);
+        showData(temp);
         EditTableHeightWidth(this.TabSupplies);
     }//GEN-LAST:event_BtnSortMouseClicked
 
