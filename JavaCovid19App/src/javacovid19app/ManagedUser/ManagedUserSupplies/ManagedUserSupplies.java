@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javacovid19app.ManagedUser.ManagedUserHomePage.*;
@@ -109,6 +110,63 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             tmp.setRowHeight(row, rowHeight);
         }
     }
+    
+    public void sortById(boolean type){
+        if (type){
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (lst.get(i).getID().compareTo(lst.get(j).getID()) > 0)
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (lst.get(i).getID().compareTo(lst.get(j).getID()) < 0)
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+    }
+    
+    public void sortByName(boolean type){
+        if (type){
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (lst.get(i).getName().compareTo(lst.get(j).getName()) > 0)
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (lst.get(i).getName().compareTo(lst.get(j).getName()) < 0)
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+    }
+    
+    public void sortByPrice(boolean type){
+        if (type){
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (Integer.valueOf(lst.get(i).getPrice()) > Integer.valueOf(lst.get(j).getPrice()))
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < lst.size()-1; i++){
+                for (int j = i+1; j < lst.size(); j++){
+                    if (Integer.valueOf(lst.get(i).getPrice()) < Integer.valueOf(lst.get(j).getPrice()))
+                        Collections.swap(lst, i, j);
+                }
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,6 +182,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         TabSupplies = new javax.swing.JTable();
         TextSearch = new javax.swing.JTextField();
         BtnSearch = new javax.swing.JLabel();
+        SortComboBox = new CustomComboBox.ComboBox();
+        BtnSort = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -167,6 +227,18 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 90, 50, 50));
 
+        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID Ascending", "ID Descending", "Name Ascending", "Name Descending", "Price Ascending", "Price Descending" }));
+        SortComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        SortComboBox.setOpaque(false);
+        getContentPane().add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, -1));
+
+        BtnSort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnSortMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnSort, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 50, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserSupplies\\SuppliesManagedUserBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -200,6 +272,36 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             EditTableHeightWidth(this.TabSupplies);
         }
     }//GEN-LAST:event_BtnSearchMouseClicked
+
+    private void BtnSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSortMouseClicked
+        // TODO add your handling code here:
+        String typeSort = SortComboBox.getSelectedItem().toString();
+        if (typeSort.equals("ID Ascending"))
+            sortById(true);
+        
+        else if (typeSort.equals("ID Descending"))
+            sortById(false);
+
+        else if (typeSort.equals("Name Ascending")){
+            sortByName(true);
+        }
+        
+        else if (typeSort.equals("Name Descending")){
+            sortByName(false);
+        }
+        
+        else if (typeSort.equals("Price Ascending")){
+            sortByPrice(true);
+        }
+        
+        else if (typeSort.equals("Price Descending")){
+            sortByPrice(false);
+        }
+        
+        refreshJTable();
+        showData(lst);
+        EditTableHeightWidth(this.TabSupplies);
+    }//GEN-LAST:event_BtnSortMouseClicked
 
     /**
      * @param args the command line arguments
@@ -239,6 +341,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnBack;
     private javax.swing.JLabel BtnSearch;
+    private javax.swing.JLabel BtnSort;
+    private CustomComboBox.ComboBox SortComboBox;
     private javax.swing.JTable TabSupplies;
     private javax.swing.JTextField TextSearch;
     private javax.swing.JLabel jLabel1;
