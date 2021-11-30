@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javacovid19app.ManagedUser.ManagedUserHomePage.*;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Necessary;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -31,13 +32,15 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public ManagedUserSupplies() {
         initComponents();
+        TextSearch.setOpaque(false);
+        TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setData();
         refreshJTable();
-        showData();
+        showData(this.lst);
         EditTableHeightWidth(this.TabSupplies);
     }
     
-    private void refreshJTable(){
+    public void refreshJTable(){
         DefaultTableModel model = (DefaultTableModel)TabSupplies.getModel();
         while (model.getRowCount()>0){
             model.removeRow(0);
@@ -67,15 +70,15 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }
     
-    public void showData(){
+    public void showData(ArrayList<Necessary> lst){
         DefaultTableModel model = (DefaultTableModel)TabSupplies.getModel();
         Object[] row = new Object[4];
         
-        for (int i = 0; i < this.lst.size(); i++){
+        for (int i = 0; i < lst.size(); i++){
             row[0] = i+1;
-            row[1] = this.lst.get(i).getID();
-            row[2] = this.lst.get(i).getName();
-            row[3] = this.lst.get(i).getPrice();
+            row[1] = lst.get(i).getID();
+            row[2] = lst.get(i).getName();
+            row[3] = lst.get(i).getPrice();
             model.addRow(row);
         }
     }
@@ -119,6 +122,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         BtnBack = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TabSupplies = new javax.swing.JTable();
+        TextSearch = new javax.swing.JTextField();
+        BtnSearch = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -152,6 +157,16 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 180, 470, 480));
 
+        TextSearch.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        getContentPane().add(TextSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 310, 40));
+
+        BtnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnSearchMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 90, 50, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserSupplies\\SuppliesManagedUserBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -164,6 +179,27 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         homepage.show();
         dispose();
     }//GEN-LAST:event_BtnBackMouseClicked
+
+    private void BtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchMouseClicked
+        // TODO add your handling code here:
+        String name = TextSearch.getText();
+        ArrayList<Necessary> res = new ArrayList<Necessary>();
+        if (name.isEmpty())
+            JOptionPane.showMessageDialog(this, "Please fill in the name of the necessary!");
+        else{
+            for (int i = 0; i < this.lst.size(); i++){
+                Necessary tmp = this.lst.get(i);
+                String necName = tmp.getName();
+                if (necName.toLowerCase().contains(name.toLowerCase())){
+                    System.out.println(tmp.getID());
+                    res.add(tmp);
+                }
+            }
+            refreshJTable();
+            showData(res);
+            EditTableHeightWidth(this.TabSupplies);
+        }
+    }//GEN-LAST:event_BtnSearchMouseClicked
 
     /**
      * @param args the command line arguments
@@ -202,7 +238,9 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnBack;
+    private javax.swing.JLabel BtnSearch;
     private javax.swing.JTable TabSupplies;
+    private javax.swing.JTextField TextSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
