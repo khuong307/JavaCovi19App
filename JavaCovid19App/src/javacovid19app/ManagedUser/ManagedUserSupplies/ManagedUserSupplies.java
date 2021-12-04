@@ -169,6 +169,36 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             }
         }
     }
+    
+    public ArrayList<Necessary> filterType(String type){
+        ArrayList<Necessary> res = new ArrayList<Necessary>();
+        for (int i = 0; i < lst.size(); i++){
+            if (lst.get(i).getType().equals(type)){
+                res.add(lst.get(i));
+            }
+        }
+        return res;
+    }
+    
+    public ArrayList<Necessary> filterPrice(int min, int max){
+        ArrayList<Necessary> res = new ArrayList<Necessary>();
+        for (int i = 0; i < lst.size(); i++){
+            int price = Integer.valueOf(lst.get(i).getPrice());
+            if (price >= min && price <= max){
+                res.add(lst.get(i));
+            }
+        }
+        return res;
+    }
+    
+    public int getMaxPrice(){
+        int max = 0;
+        for (int i = 0; i < lst.size(); i++){
+            if (max < Integer.valueOf(lst.get(i).getPrice()))
+                max = Integer.valueOf(lst.get(i).getPrice());
+        }
+        return max;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -184,8 +214,10 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         TabSupplies = new javax.swing.JTable();
         TextSearch = new javax.swing.JTextField();
         BtnSearch = new javax.swing.JLabel();
-        SortComboBox = new CustomComboBox.ComboBox();
         BtnSort = new javax.swing.JLabel();
+        SortComboBox = new CustomComboBox.ComboBox();
+        FilterComboBox = new CustomComboBox.ComboBox();
+        BtnFilter = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -229,17 +261,29 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 90, 50, 50));
 
-        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID Ascending", "ID Descending", "Name Ascending", "Name Descending", "Price Ascending", "Price Descending" }));
-        SortComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
-        SortComboBox.setOpaque(false);
-        getContentPane().add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, -1));
-
         BtnSort.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnSortMouseClicked(evt);
             }
         });
         getContentPane().add(BtnSort, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 50, 50));
+
+        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID Ascending", "ID Descending", "Name Ascending", "Name Descending", "Price Ascending", "Price Descending" }));
+        SortComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        SortComboBox.setOpaque(false);
+        getContentPane().add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, -1));
+
+        FilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Instant Food", "Fruit", "Essential", "Low Price", "Medium Price", "High Price" }));
+        FilterComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        FilterComboBox.setOpaque(false);
+        getContentPane().add(FilterComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 140, -1));
+
+        BtnFilter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnFilterMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 450, 40, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserSupplies\\SuppliesManagedUserBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -308,6 +352,40 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         EditTableHeightWidth(this.TabSupplies);
     }//GEN-LAST:event_BtnSortMouseClicked
 
+    private void BtnFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnFilterMouseClicked
+        // TODO add your handling code here:
+        String typeFilter = FilterComboBox.getSelectedItem().toString();
+        ArrayList<Necessary> res = new ArrayList<Necessary>();
+        if (typeFilter.equals("Instant Food")){
+            res = filterType("1");
+        }
+        
+        else if (typeFilter.equals("Fruit")){
+            res = filterType("2");
+        }
+        
+        else if (typeFilter.equals("Essential")){
+            res = filterType("3");
+        }
+        
+        else if (typeFilter.equals("Low Price")){
+            res = filterPrice(0, 9999);
+        }
+        
+        else if (typeFilter.equals("Medium Price")){
+            res = filterPrice(10000, 50000);
+        }
+        
+        else if (typeFilter.equals("High Price")){
+            int max = getMaxPrice();
+            res = filterPrice(50001, max);
+        }
+        
+        refreshJTable();
+        showData(res);
+        EditTableHeightWidth(this.TabSupplies);
+    }//GEN-LAST:event_BtnFilterMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -345,8 +423,10 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnBack;
+    private javax.swing.JLabel BtnFilter;
     private javax.swing.JLabel BtnSearch;
     private javax.swing.JLabel BtnSort;
+    private CustomComboBox.ComboBox FilterComboBox;
     private CustomComboBox.ComboBox SortComboBox;
     private javax.swing.JTable TabSupplies;
     private javax.swing.JTextField TextSearch;
