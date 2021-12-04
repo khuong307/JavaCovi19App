@@ -113,10 +113,10 @@ public class ManagerHomePage extends javax.swing.JFrame {
     }
     
     public void StatusCityBarChart(){
-        barChartCity.addLegend("F0", new Color(245, 189, 135));
-        barChartCity.addLegend("F1", new Color(135, 189, 245));
-        barChartCity.addLegend("F2", new Color(189, 135, 245));
-        barChartCity.addLegend("F3", new Color(139, 229, 222));
+        barChartCity.addLegend("F0", new Color(95, 199, 182));
+        barChartCity.addLegend("F1", new Color(69, 106, 161));
+        barChartCity.addLegend("F2", new Color(87, 69, 161));
+        barChartCity.addLegend("F3", new Color(161, 69, 124));
         String quater [] = {"Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4"};
         for (int i = 1; i < 5; i++){
             int f0 = numberPeopleStatusInQuarter(this.treatmentHistotyList, i, "F0");
@@ -315,6 +315,8 @@ public class ManagerHomePage extends javax.swing.JFrame {
         BtnInvolvePeopleFeature = new javax.swing.JLabel();
         BtnSupplies = new javax.swing.JLabel();
         BtnLogout = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -326,7 +328,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 PolarFStatusChartMouseClicked(evt);
             }
         });
-        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 80, 290, 270));
+        getContentPane().add(PolarFStatusChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, 270, 250));
 
         barChartCity.setOpaque(false);
         barChartCity.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -334,7 +336,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 barChartCityMouseClicked(evt);
             }
         });
-        getContentPane().add(barChartCity, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, 580, 260));
+        getContentPane().add(barChartCity, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 100, 480, 260));
 
         BtnInvolvePeopleFeature.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -357,6 +359,19 @@ public class ManagerHomePage extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(1200, 20, 60, 60));
+
+        jLabel2.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("COVID STATUS POLAR CHART");
+        jLabel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 350, 220, 30));
+
+        jLabel3.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("BAR CHART: COVID STATUS BY TIME PERIOD");
+        jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 360, 330, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomeBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
@@ -457,5 +472,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
     private PolarChart.PolarAreaChart PolarFStatusChart;
     private BarChartAnimation.BarChart barChartCity;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }
