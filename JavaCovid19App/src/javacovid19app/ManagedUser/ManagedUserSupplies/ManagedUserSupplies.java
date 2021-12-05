@@ -29,8 +29,8 @@ import javax.swing.table.TableColumnModel;
  */
 public class ManagedUserSupplies extends javax.swing.JFrame {
 
-    private ArrayList<Necessary> lst = new ArrayList<Necessary>();
-    private ArrayList<Necessary> temp = new ArrayList<Necessary>();
+    private ArrayList<Necessary> lst = new ArrayList<Necessary>(); // danh sách tất cả nhu yếu phẩm
+    private ArrayList<Necessary> temp = new ArrayList<Necessary>(); // danh sách đang hiển thị
     
     public ManagedUserSupplies() {
         initComponents();
@@ -172,9 +172,9 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public ArrayList<Necessary> filterType(String type){
         ArrayList<Necessary> res = new ArrayList<Necessary>();
-        for (int i = 0; i < lst.size(); i++){
-            if (lst.get(i).getType().equals(type)){
-                res.add(lst.get(i));
+        for (int i = 0; i < temp.size(); i++){
+            if (temp.get(i).getType().equals(type)){
+                res.add(temp.get(i));
             }
         }
         return res;
@@ -182,10 +182,10 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     
     public ArrayList<Necessary> filterPrice(int min, int max){
         ArrayList<Necessary> res = new ArrayList<Necessary>();
-        for (int i = 0; i < lst.size(); i++){
-            int price = Integer.valueOf(lst.get(i).getPrice());
+        for (int i = 0; i < temp.size(); i++){
+            int price = Integer.valueOf(temp.get(i).getPrice());
             if (price >= min && price <= max){
-                res.add(lst.get(i));
+                res.add(temp.get(i));
             }
         }
         return res;
@@ -304,13 +304,13 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         ArrayList<Necessary> res = new ArrayList<Necessary>();
         if (name.isEmpty()){
             refreshJTable();
-            showData(lst);
+            showData(temp);
             EditTableHeightWidth(this.TabSupplies);
             temp = lst;
         }
         else{
-            for (int i = 0; i < this.lst.size(); i++){
-                Necessary tmp = this.lst.get(i);
+            for (int i = 0; i < this.temp.size(); i++){
+                Necessary tmp = this.temp.get(i);
                 String necName = tmp.getName().split(" \\(")[0];
                 if (necName.toLowerCase().contains(name.toLowerCase()))
                     res.add(tmp);
@@ -331,21 +331,17 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         else if (typeSort.equals("ID Descending"))
             sortById(false);
 
-        else if (typeSort.equals("Name Ascending")){
+        else if (typeSort.equals("Name Ascending"))
             sortByName(true);
-        }
         
-        else if (typeSort.equals("Name Descending")){
+        else if (typeSort.equals("Name Descending"))
             sortByName(false);
-        }
         
-        else if (typeSort.equals("Price Ascending")){
+        else if (typeSort.equals("Price Ascending"))
             sortByPrice(true);
-        }
         
-        else if (typeSort.equals("Price Descending")){
+        else if (typeSort.equals("Price Descending"))
             sortByPrice(false);
-        }
         
         refreshJTable();
         showData(temp);
@@ -355,34 +351,28 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     private void BtnFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnFilterMouseClicked
         // TODO add your handling code here:
         String typeFilter = FilterComboBox.getSelectedItem().toString();
-        ArrayList<Necessary> res = new ArrayList<Necessary>();
-        if (typeFilter.equals("Instant Food")){
-            res = filterType("1");
-        }
+        if (typeFilter.equals("Instant Food"))
+            temp = filterType("1");
         
-        else if (typeFilter.equals("Fruit")){
-            res = filterType("2");
-        }
+        else if (typeFilter.equals("Fruit"))
+            temp = filterType("2");
         
-        else if (typeFilter.equals("Essential")){
-            res = filterType("3");
-        }
+        else if (typeFilter.equals("Essential"))
+            temp = filterType("3");
         
-        else if (typeFilter.equals("Low Price")){
-            res = filterPrice(0, 9999);
-        }
+        else if (typeFilter.equals("Low Price"))
+            temp = filterPrice(0, 9999);
         
-        else if (typeFilter.equals("Medium Price")){
-            res = filterPrice(10000, 50000);
-        }
+        else if (typeFilter.equals("Medium Price"))
+            temp = filterPrice(10000, 50000);
         
         else if (typeFilter.equals("High Price")){
             int max = getMaxPrice();
-            res = filterPrice(50001, max);
+            temp = filterPrice(50001, max);
         }
         
         refreshJTable();
-        showData(res);
+        showData(temp);
         EditTableHeightWidth(this.TabSupplies);
     }//GEN-LAST:event_BtnFilterMouseClicked
 
