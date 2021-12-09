@@ -21,6 +21,7 @@ public class ManagedUser {
     private Ward ward = new Ward ("", "", "");
     private District district = new District ("", "", "");
     private int balance;
+    private int loan;
     
     public ManagedUser(){
         ID = "";
@@ -29,6 +30,7 @@ public class ManagedUser {
         CurrentStatus = "";
         InvolvedID = "";
         balance = 0;
+        loan = 0;
     }
     public String getCityName(ArrayList<City> cityList, String CityID){
         for (int i  =0;i < cityList.size(); i++){
@@ -244,6 +246,13 @@ public class ManagedUser {
     public int getBalance() {
         return balance;
     }
+    
+    /**
+     * @return the loan
+     */
+    public int getLoan() {
+        return loan;
+    }
 
     /**
      * @param balance the balance to set
@@ -252,6 +261,10 @@ public class ManagedUser {
         this.balance = balance;
     }
     
+    public void setLoan(int loan){
+        this.loan = loan;
+    }
+     
     public void setFacilityID(String ID){
         this.FacilityName.setID(ID);
     }
@@ -267,4 +280,7 @@ public class ManagedUser {
     public void setQuantity(String quantity){
         this.FacilityName.setQuantity(quantity);
     }
+    
+    
+    
 }
