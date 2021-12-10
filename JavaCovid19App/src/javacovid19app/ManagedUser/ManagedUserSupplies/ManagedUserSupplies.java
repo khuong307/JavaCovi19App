@@ -69,6 +69,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     private ArrayList<Necessary> temp = new ArrayList<Necessary>(); // danh sách đang hiển thị
     private ArrayList<Necessary> cart = new ArrayList<Necessary>(); // danh sách các nhu yếu phẩm trong giỏ hàng
     private ArrayList<ConsumeHistory> ConHis = new ArrayList<ConsumeHistory>();
+    private int size = 0;
 
     public ManagedUserSupplies() {
         initComponents();
@@ -76,6 +77,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setData();
         setConsumeHistory();
+        size = ConHis.size();
         refreshJTable(this.TabSupplies);
         showData(this.TabSupplies, this.lst);
         EditTableHeightWidth(this.TabSupplies);
@@ -89,6 +91,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setData();
         setConsumeHistory();
+        size = ConHis.size();
         refreshJTable(this.TabSupplies);
         showData(this.TabSupplies, this.lst);
         EditTableHeightWidth(this.TabSupplies);
@@ -345,6 +348,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TabCartList = new javax.swing.JTable();
         BtnBuy = new javax.swing.JLabel();
+        BtnDel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -441,16 +445,23 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             TabCartList.getColumnModel().getColumn(0).setHeaderValue("No");
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 197, -1, 370));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 257, -1, 310));
 
         BtnBuy.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnBuyMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(1165, 590, 90, 90));
+        getContentPane().add(BtnBuy, new org.netbeans.lib.awtextra.AbsoluteConstraints(1165, 600, 90, 80));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserSupplies\\SuppliesManagedUserBackground.png")); // NOI18N
+        BtnDel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnDelMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1195, 194, 60, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/ManagedUser/ManagedUserSupplies/SuppliesManagedUserBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
@@ -609,6 +620,19 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BtnBuyMouseClicked
 
+    private void BtnDelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnDelMouseClicked
+        // TODO add your handling code here:
+        int index = TabCartList.getSelectedRow();
+        TableModel model = TabCartList.getModel();
+        
+        cart.remove(index);
+        ConHis.remove(size + index);
+        
+        refreshJTable(this.TabCartList);
+        showData(this.TabCartList, cart);
+        EditTableHeightWidth(this.TabCartList);
+    }//GEN-LAST:event_BtnDelMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -648,6 +672,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     private javax.swing.JLabel BtnAddToCart;
     private javax.swing.JLabel BtnBack;
     private javax.swing.JLabel BtnBuy;
+    private javax.swing.JLabel BtnDel;
     private javax.swing.JLabel BtnFilter;
     private javax.swing.JLabel BtnSearch;
     private javax.swing.JLabel BtnSort;

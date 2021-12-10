@@ -195,7 +195,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="802" y="197" width="-1" height="370"/>
+          <AbsoluteConstraints x="802" y="257" width="-1" height="310"/>
         </Constraint>
       </Constraints>
 
@@ -251,14 +251,24 @@
       </Events>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="1165" y="590" width="90" height="90"/>
+          <AbsoluteConstraints x="1165" y="600" width="90" height="80"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JLabel" name="BtnDel">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BtnDelMouseClicked"/>
+      </Events>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="1195" y="194" width="60" height="60"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="C:\Users\DELL\Documents\GitHub\JavaCovi19App\JavaCovid19App\src\javacovid19app\ManagedUser\ManagedUserSupplies\SuppliesManagedUserBackground.png"/>
+          <Image iconType="3" name="/javacovid19app/ManagedUser/ManagedUserSupplies/SuppliesManagedUserBackground.png"/>
         </Property>
       </Properties>
       <Constraints>
