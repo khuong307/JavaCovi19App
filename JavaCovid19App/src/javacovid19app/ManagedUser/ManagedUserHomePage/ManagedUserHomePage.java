@@ -18,10 +18,19 @@ import javacovid19app.ManagedUser.ManagedUserSupplies.*;
 
 public class ManagedUserHomePage extends javax.swing.JFrame {
 
+    String userID = "";
     /**
      * Creates new form ManagedUserHomePage
      */
     public ManagedUserHomePage() {
+        initComponents();
+        this.setResizable(false); // can not fix size of a Frame;
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+    }
+    
+    public ManagedUserHomePage(String username) {
+        this.userID=username;
+        System.out.println(userID);
         initComponents();
         this.setResizable(false); // can not fix size of a Frame;
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
@@ -86,7 +95,7 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
 
     private void BtnSuppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSuppliesMouseClicked
         // TODO add your handling code here:
-        ManagedUserSupplies sup = new ManagedUserSupplies();
+        ManagedUserSupplies sup = new ManagedUserSupplies(userID);
         sup.show();
         dispose();
     }//GEN-LAST:event_BtnSuppliesMouseClicked

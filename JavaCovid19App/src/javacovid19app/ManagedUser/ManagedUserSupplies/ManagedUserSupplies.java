@@ -22,29 +22,101 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author DELL
  */
+
+class ConsumeHistory{
+    private String ConsumeID;
+    private String UserID;
+    private String NecessaryID;
+    private String BuyTime;
+    
+    ConsumeHistory(String ConsumeID, String UserID, String NecessaryID, String BuyTime){
+        this.ConsumeID = ConsumeID;
+        this.UserID = UserID;
+        this.NecessaryID = NecessaryID;
+        this.BuyTime = BuyTime;
+    }
+    
+    public String getConsumeID(){
+        return ConsumeID;
+    }
+    
+    public String getUserID(){
+        return UserID;
+    }
+    
+    public String getNecessaryID(){
+        return NecessaryID;
+    }
+    
+    public String getBuyTime(){
+        return BuyTime;
+    }
+}
+
 public class ManagedUserSupplies extends javax.swing.JFrame {
 
+    private String userID = "";
     private ArrayList<Necessary> lst = new ArrayList<Necessary>(); // danh sách tất cả nhu yếu phẩm
     private ArrayList<Necessary> temp = new ArrayList<Necessary>(); // danh sách đang hiển thị
+    private ArrayList<Necessary> cart = new ArrayList<Necessary>(); // danh sách các nhu yếu phẩm trong giỏ hàng
+    private ArrayList<ConsumeHistory> ConHis = new ArrayList<ConsumeHistory>();
     
     public ManagedUserSupplies() {
         initComponents();
         TextSearch.setOpaque(false);
         TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setData();
-        refreshJTable();
-        showData(this.lst);
+        setConsumeHistory();
+        refreshJTable(this.TabSupplies);
+        showData(this.TabSupplies, this.lst);
         EditTableHeightWidth(this.TabSupplies);
         temp = lst;
     }
     
-    public void refreshJTable(){
-        DefaultTableModel model = (DefaultTableModel)TabSupplies.getModel();
+    public ManagedUserSupplies(String username) {
+        this.userID = username;
+        initComponents();
+        TextSearch.setOpaque(false);
+        TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        setData();
+        setConsumeHistory();
+        refreshJTable(this.TabSupplies);
+        showData(this.TabSupplies, this.lst);
+        EditTableHeightWidth(this.TabSupplies);
+        temp = lst;
+    }
+    
+    public void setConsumeHistory(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+
+            String sql = "Select * from ConsumeHistory where UserID = " + userID;
+            ResultSet res = state.executeQuery(sql);
+            
+            while (res.next()){
+                ConsumeHistory tmp = new ConsumeHistory (res.getString("ConsumeID"), res.getString("UserID"), res.getString("NecessariesID"), res.getString("BuyTime")); 
+                this.ConHis.add(tmp);
+            }
+            
+            connect.close();
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ManagedUserSupplies.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ManagedUserSupplies.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void refreshJTable(JTable tab){
+        DefaultTableModel model = (DefaultTableModel)tab.getModel();
         while (model.getRowCount()>0){
             model.removeRow(0);
         }
@@ -73,8 +145,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }
     
-    public void showData(ArrayList<Necessary> lst){
-        DefaultTableModel model = (DefaultTableModel)TabSupplies.getModel();
+    public void showData(JTable tab, ArrayList<Necessary> lst){
+        DefaultTableModel model = (DefaultTableModel)tab.getModel();
         Object[] row = new Object[4];
         
         for (int i = 0; i < lst.size(); i++){
@@ -199,6 +271,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
         return max;
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -218,6 +292,9 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         SortComboBox = new CustomComboBox.ComboBox();
         FilterComboBox = new CustomComboBox.ComboBox();
         BtnFilter = new javax.swing.JLabel();
+        BtnAddToCart = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TabCartList = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -285,6 +362,37 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         });
         getContentPane().add(BtnFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(185, 450, 40, 50));
 
+        BtnAddToCart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnAddToCartMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnAddToCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(665, 90, 60, 70));
+
+        TabCartList.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        TabCartList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No", "ID", "Name", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(TabCartList);
+        if (TabCartList.getColumnModel().getColumnCount() > 0) {
+            TabCartList.getColumnModel().getColumn(0).setHeaderValue("No");
+        }
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 197, -1, 370));
+
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserSupplies\\SuppliesManagedUserBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -293,7 +401,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
 
     private void BtnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackMouseClicked
         // TODO add your handling code here:
-        ManagedUserHomePage homepage = new ManagedUserHomePage();
+        ManagedUserHomePage homepage = new ManagedUserHomePage(userID);
         homepage.show();
         dispose();
     }//GEN-LAST:event_BtnBackMouseClicked
@@ -303,8 +411,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         String name = TextSearch.getText();
         ArrayList<Necessary> res = new ArrayList<Necessary>();
         if (name.isEmpty()){
-            refreshJTable();
-            showData(temp);
+            refreshJTable(this.TabSupplies);
+            showData(this.TabSupplies, temp);
             EditTableHeightWidth(this.TabSupplies);
             temp = lst;
         }
@@ -315,8 +423,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
                 if (necName.toLowerCase().contains(name.toLowerCase()))
                     res.add(tmp);
             }
-            refreshJTable();
-            showData(res);
+            refreshJTable(this.TabSupplies);
+            showData(this.TabSupplies, res);
             EditTableHeightWidth(this.TabSupplies);
             temp = res;
         }
@@ -343,8 +451,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         else if (typeSort.equals("Price Descending"))
             sortByPrice(false);
         
-        refreshJTable();
-        showData(temp);
+        refreshJTable(this.TabSupplies);
+        showData(this.TabSupplies, temp);
         EditTableHeightWidth(this.TabSupplies);
     }//GEN-LAST:event_BtnSortMouseClicked
 
@@ -371,10 +479,28 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             temp = filterPrice(50001, max);
         }
         
-        refreshJTable();
-        showData(temp);
+        refreshJTable(this.TabSupplies);
+        showData(this.TabSupplies, temp);
         EditTableHeightWidth(this.TabSupplies);
     }//GEN-LAST:event_BtnFilterMouseClicked
+
+    private void BtnAddToCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddToCartMouseClicked
+        // TODO add your handling code here:
+        int index = TabSupplies.getSelectedRow();
+        TableModel model = TabSupplies.getModel();
+        
+        String id = model.getValueAt(index, 1).toString();
+        for (int i = 0; i < lst.size(); i++){
+            if (lst.get(i).getID().equals(id)){
+                cart.add(lst.get(i));
+                break;
+            }
+        }
+        
+        refreshJTable(this.TabCartList);
+        showData(this.TabCartList, cart);
+        EditTableHeightWidth(this.TabCartList);
+    }//GEN-LAST:event_BtnAddToCartMouseClicked
 
     /**
      * @param args the command line arguments
@@ -412,15 +538,18 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtnAddToCart;
     private javax.swing.JLabel BtnBack;
     private javax.swing.JLabel BtnFilter;
     private javax.swing.JLabel BtnSearch;
     private javax.swing.JLabel BtnSort;
     private CustomComboBox.ComboBox FilterComboBox;
     private CustomComboBox.ComboBox SortComboBox;
+    private javax.swing.JTable TabCartList;
     private javax.swing.JTable TabSupplies;
     private javax.swing.JTextField TextSearch;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
