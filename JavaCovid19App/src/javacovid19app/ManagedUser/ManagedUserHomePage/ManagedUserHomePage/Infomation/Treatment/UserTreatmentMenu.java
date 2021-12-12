@@ -165,6 +165,8 @@ public class UserTreatmentMenu extends javax.swing.JFrame {
         quantityMaxTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
         getContentPane().add(quantityMaxTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 469, 100, 30));
 
+        treatmentTable.setBackground(new java.awt.Color(153, 255, 153));
+        treatmentTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         treatmentTable.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
         treatmentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

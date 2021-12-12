@@ -122,6 +122,8 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         });
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 60, 60));
 
+        covidHistoryTable.setBackground(new java.awt.Color(153, 255, 153));
+        covidHistoryTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         covidHistoryTable.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         covidHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -131,6 +133,7 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
                 "STATUS", "BEGIN TIME", "END TIME", "INVOLVED"
             }
         ));
+        covidHistoryTable.setOpaque(false);
         covidHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 covidHistoryTableMouseClicked(evt);

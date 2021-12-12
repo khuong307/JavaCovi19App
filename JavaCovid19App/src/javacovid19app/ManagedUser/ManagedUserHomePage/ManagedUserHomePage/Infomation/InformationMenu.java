@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javacovid19app.HomePage.HomePage;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.CovidHistory.CovidHistoryMenu;
+import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Transaction.TransactionHistory;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Treatment.UserTreatmentMenu;
 import javacovid19app.ManagedUser.ManagedUserHomePage.ManagedUserHomePage;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.City;
@@ -70,6 +71,28 @@ public class InformationMenu extends javax.swing.JFrame {
         statusTextField.setEditable(false);
         balanceTextField.setEditable(false);
         relatedTextField.setEditable(false);
+        loanTextField.setEditable(false);
+        
+        
+        // Tạo truy vấn lấy loan riêng để ko ảnh hưởng đến class
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+
+            String sql = "Select Loan from ManagedUser ";
+            ResultSet res = state.executeQuery(sql);
+            
+            if(res.next()){
+                int loan=res.getInt(1);
+                loanTextField.setText(String.valueOf(loan));
+            }
+            connect.close();
+           }catch(Exception e){
+           System.out.println(e.getMessage());
+        }
+        
+        
         
         this.setTitle("Covid 19 User Information");
         getArrayWardList();
@@ -259,6 +282,7 @@ public class InformationMenu extends javax.swing.JFrame {
         balanceTextField = new javax.swing.JTextField();
         relatedTextField = new javax.swing.JTextField();
         fullNameTextField = new javax.swing.JTextField();
+        loanTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -308,39 +332,43 @@ public class InformationMenu extends javax.swing.JFrame {
 
         personalIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         personalIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(personalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 230, 30));
+        getContentPane().add(personalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 230, 30));
 
         yobTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         yobTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(yobTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 230, 30));
+        getContentPane().add(yobTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 230, 30));
 
         cityTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         cityTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(cityTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 369, 230, 30));
+        getContentPane().add(cityTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 230, 30));
 
         districtTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         districtTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(districtTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 420, 230, 40));
+        getContentPane().add(districtTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 230, 40));
 
         wardTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         wardTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(wardTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 480, 230, 30));
+        getContentPane().add(wardTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 230, 30));
 
         statusTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         statusTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 230, 30));
+        getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 490, 230, 30));
 
         balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         balanceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(balanceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 589, 230, 30));
+        getContentPane().add(balanceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 590, 230, 30));
 
         relatedTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         relatedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(relatedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 639, 230, 30));
+        getContentPane().add(relatedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 230, 30));
 
         fullNameTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         fullNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(fullNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 269, 230, 30));
+        getContentPane().add(fullNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 230, 30));
+
+        loanTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        loanTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        getContentPane().add(loanTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 640, 230, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\Desktop\\JavaCovi19App-Khang\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\Infomation\\InformationManagedUserBackground.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
@@ -376,7 +404,8 @@ public class InformationMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_covidLabelMouseClicked
 
     private void transactionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactionLabelMouseClicked
-        JOptionPane.showMessageDialog(this, "continue....");
+        TransactionHistory transMenu=new TransactionHistory(userID);
+        transMenu.show();
     }//GEN-LAST:event_transactionLabelMouseClicked
 
     /**
@@ -423,6 +452,7 @@ public class InformationMenu extends javax.swing.JFrame {
     private javax.swing.JTextField districtTextField;
     private javax.swing.JTextField fullNameTextField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextField loanTextField;
     private javax.swing.JLabel logOutLabel;
     private javax.swing.JTextField personalIDTextField;
     private javax.swing.JTextField relatedTextField;
