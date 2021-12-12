@@ -1,8 +1,18 @@
 package javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Transaction;
 
-public class TransactionHistory extends javax.swing.JFrame {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+public class TransactionHistory extends javax.swing.JFrame {
     String userID="";
+    
+    private ArrayList<Transaction> transactionList=new ArrayList<>();
+    
     public TransactionHistory() {
         initComponents();
         this.setResizable(false); // can not fix size of a Frame;
@@ -21,12 +31,54 @@ public class TransactionHistory extends javax.swing.JFrame {
         this.setResizable(false); // can not fix size of a Frame;
         this.setTitle("Transaction History");
         setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        this.userID=username;
         
         transIDTextField.setEditable(false);
         accountIDTextField.setEditable(false);
         timeTextField.setEditable(false);
         totalTextField.setEditable(false);
         balanceTextField.setEditable(false);
+        
+        getTransactionList();
+        show_historyTransaction();
+    }
+    
+    
+     // get Treatement History data
+    public void getTransactionList(){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+
+            String sql = "Select TransactionID,UserID,TransactionTime,Transaction.AccountID,Total,Balance from Transaction,MainAccount where Transaction.UserID= '"+userID+"' and Transaction.AccountID=MainAccount.AccountID";
+            System.out.println(sql);
+            ResultSet res = state.executeQuery(sql);
+            
+            Transaction tmp;
+            while(res.next()){
+                tmp = new Transaction(res.getString("TransactionID"), res.getString("UserID"),res.getTimestamp("TransactionTime"),res.getString("AccountID"),res.getInt("Total"),res.getInt("Balance")); 
+                this.transactionList.add(tmp);
+            }
+            connect.close();
+           }catch(Exception e){
+           System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    public void show_historyTransaction(){
+        DefaultTableModel model=(DefaultTableModel)transHistoryTable.getModel();
+        Object row[]=new Object[5];
+        
+        for (int i=0;i<transactionList.size();i++){
+            row[0]=transactionList.get(i).getTransactionID();
+            row[1]=transactionList.get(i).getAccountID();
+            row[2]=transactionList.get(i).getTransactionTime();
+            row[3]=transactionList.get(i).getTotal();
+            row[4]=transactionList.get(i).getBalance();
+            model.addRow(row);
+        }
     }
 
     /**
@@ -56,9 +108,11 @@ public class TransactionHistory extends javax.swing.JFrame {
         getContentPane().add(transIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 190, 40));
 
         accountIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        accountIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(accountIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 190, 40));
 
         timeTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        timeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(timeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 310, 40));
 
         totalTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
@@ -76,6 +130,8 @@ public class TransactionHistory extends javax.swing.JFrame {
         });
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 70, 70));
 
+        transHistoryTable.setBackground(new java.awt.Color(102, 255, 102));
+        transHistoryTable.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
         transHistoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -84,6 +140,11 @@ public class TransactionHistory extends javax.swing.JFrame {
                 "TRANSACTION ID", "ACCOUNT ID", "TIME", "TOTAL", "BALANCE"
             }
         ));
+        transHistoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transHistoryTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(transHistoryTable);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 156, 630, 430));
@@ -97,6 +158,16 @@ public class TransactionHistory extends javax.swing.JFrame {
     private void backLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backLabelMouseClicked
         dispose();
     }//GEN-LAST:event_backLabelMouseClicked
+
+    private void transHistoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transHistoryTableMouseClicked
+        int i = transHistoryTable.getSelectedRow();
+        TableModel model=transHistoryTable.getModel();
+        transIDTextField.setText(model.getValueAt(i, 0).toString());
+        accountIDTextField.setText(model.getValueAt(i, 1).toString());
+        timeTextField.setText(model.getValueAt(i, 2).toString());
+        totalTextField.setText(model.getValueAt(i, 3).toString());
+        balanceTextField.setText(model.getValueAt(i, 4).toString());
+    }//GEN-LAST:event_transHistoryTableMouseClicked
 
     /**
      * @param args the command line arguments
