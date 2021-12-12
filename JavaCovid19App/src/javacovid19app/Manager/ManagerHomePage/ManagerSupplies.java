@@ -560,7 +560,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
 
     private int checkExistSupply(String name){
         for (int i = 0; i < this.necessaryList.size(); i++){
-            if (this.necessaryList.get(i).getName().compareTo(name)==0){
+            if (this.necessaryList.get(i).getName().contains(name)== true){
                 return i;
             }
         }
@@ -759,8 +759,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Found!");
             int position = 0;
             for (int i = 0; i < this.necessaryList.size(); i++){
-                if (this.necessaryList.get(i).getName().compareTo(name) == 0){
-                    
+                if (this.necessaryList.get(i).getName().contains(name) == true){
                     break;
                 }
                 if (this.necessaryList.get(i).getType().compareTo(String.valueOf(type)) == 0){
