@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package javacovid19app.ManagedUser.ManagedUserHomePage;
 
 import java.sql.Connection;
@@ -15,13 +11,12 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javacovid19app.HomePage.*;
 import javacovid19app.ManagedUser.ManagedUserSupplies.*;
+import javacovid19app.ManagedUser.ManagedUserTransaction.*;
 
 public class ManagedUserHomePage extends javax.swing.JFrame {
 
     String userID = "";
-    /**
-     * Creates new form ManagedUserHomePage
-     */
+
     public ManagedUserHomePage() {
         initComponents();
         this.setResizable(false); // can not fix size of a Frame;
@@ -102,7 +97,9 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
 
     private void BtnTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnTransactionMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "Continue...");
+        ManagedUserTransaction trans = new ManagedUserTransaction(userID);
+        trans.show();
+        dispose();
     }//GEN-LAST:event_BtnTransactionMouseClicked
 
     private void BtnBackSignInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackSignInMouseClicked

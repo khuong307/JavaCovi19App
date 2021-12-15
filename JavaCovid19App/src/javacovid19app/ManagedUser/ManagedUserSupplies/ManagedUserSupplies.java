@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package javacovid19app.ManagedUser.ManagedUserSupplies;
 
 import java.awt.Component;
@@ -27,10 +23,6 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-/**
- *
- * @author DELL
- */
 class ConsumeHistory {
 
     private String ConsumeID;
@@ -70,6 +62,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
     private ArrayList<Necessary> cart = new ArrayList<Necessary>(); // danh sách các nhu yếu phẩm trong giỏ hàng
     private ArrayList<ConsumeHistory> ConHis = new ArrayList<ConsumeHistory>();
     private int size = 0;
+    private int loan = 0;
+    private int MAX = 300000;
 
     public ManagedUserSupplies() {
         initComponents();
@@ -157,9 +151,16 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
-
-            String sql = "Select * from Necessaries ";
+            
+            String sql = "select * from ManagedUser where UserID = '" + userID + "'";
             ResultSet res = state.executeQuery(sql);
+            
+            while(res.next()){
+                loan = res.getInt("Loan");
+            }
+
+            sql = "Select * from Necessaries ";
+            res = state.executeQuery(sql);
 
             while (res.next()) {
                 Necessary tmp = new Necessary(res.getString("NecessariesID"), res.getString("Name"), res.getString("TimeLimited"), res.getString("DateLimited"), res.getString("Price"), res.getString("Type"));
@@ -553,11 +554,17 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         ArrayList<ConsumeHistory> ConHisById = findByNecessaryId(id);
         int limited = Integer.valueOf(tmp.getLimitation());
         int timeLimited = Integer.valueOf(tmp.getDateLimit());
+        int price = Integer.valueOf(tmp.getPrice());
         if (limited > ConHisById.size()) {
-            cart.add(tmp);
-            String now = Instant.now().atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE);
-            ConsumeHistory his = new ConsumeHistory(" ", userID, tmp.getID(), now);
-            ConHis.add(his);
+            if (loan + price > MAX)
+                JOptionPane.showMessageDialog(this, "Exceed the maximum loan");
+            else{
+                cart.add(tmp);
+                String now = Instant.now().atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE);
+                ConsumeHistory his = new ConsumeHistory(" ", userID, tmp.getID(), now);
+                ConHis.add(his);
+                loan += Integer.valueOf(tmp.getPrice());
+            }
         } else {
             String firstDate = ConHisById.get(ConHisById.size() - limited).getBuyTime();
             String now = Instant.now().atZone(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -566,9 +573,14 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             long diffDays = ChronoUnit.DAYS.between(dt1, dt2);
 
             if (Math.abs((int)diffDays + 1) > timeLimited){
-                cart.add(tmp);
-                ConsumeHistory his = new ConsumeHistory(" ", userID, tmp.getID(), now);
-                ConHis.add(his);
+                if (loan + price > MAX)
+                    JOptionPane.showMessageDialog(this, "Exceed the maximum loan");
+                else{
+                    cart.add(tmp);
+                    ConsumeHistory his = new ConsumeHistory(" ", userID, tmp.getID(), now);
+                    ConHis.add(his);
+                    loan += Integer.valueOf(tmp.getPrice());
+                }
             }
             else{
                 JOptionPane.showMessageDialog(this, "You can only buy " + limited + " supply(ies)/" + timeLimited + " day(s)"
@@ -576,6 +588,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
                 + "From " + firstDate + " to now, you bought the maximum this supplies");
             }
         }
+        
+        System.out.println(loan);
 
         refreshJTable(this.TabCartList);
         showData(this.TabCartList, cart);
@@ -589,7 +603,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
-            
+
             DefaultTableModel model = (DefaultTableModel) TabCartList.getModel();
             for (int i = 0; model.getRowCount() > i; i++){
                 String NecessaryID = (String) model.getValueAt(i, 1);
@@ -627,6 +641,9 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         
         cart.remove(index);
         ConHis.remove(size + index);
+        loan -= Integer.valueOf(model.getValueAt(index, 3).toString());
+        
+        System.out.println(loan);
         
         refreshJTable(this.TabCartList);
         showData(this.TabCartList, cart);
