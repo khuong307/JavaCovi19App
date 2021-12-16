@@ -6,6 +6,7 @@ package javacovid19app.ManagedUser.ManagedUserHomePage;
 
 import javax.swing.JOptionPane;
 import javacovid19app.HomePage.*;
+import javacovid19app.ManagedUser.ManagedUserHomePage.ChangePassword.ChangePassword;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.InformationMenu;
 
 /**
@@ -41,6 +42,7 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
         BtnUserSupplies = new javax.swing.JLabel();
         BtnUserTransaction = new javax.swing.JLabel();
         BtnBackSignIn = new javax.swing.JLabel();
+        changePasswordLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,30 +53,37 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
                 BtnUserInfoMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 240, 70));
+        getContentPane().add(BtnUserInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 320, 300, 370));
 
         BtnUserSupplies.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnUserSuppliesMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserSupplies, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, 170, 70));
+        getContentPane().add(BtnUserSupplies, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 320, 300, 370));
 
         BtnUserTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnUserTransactionMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnUserTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 220, 230, 70));
+        getContentPane().add(BtnUserTransaction, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 320, 300, 370));
 
         BtnBackSignIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnBackSignInMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnBackSignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 20, 50, 50));
+        getContentPane().add(BtnBackSignIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 10, 70, 60));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\Desktop\\JavaCovi19App-Khang\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\UserHomePage.png")); // NOI18N
+        changePasswordLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                changePasswordLabelMouseClicked(evt);
+            }
+        });
+        getContentPane().add(changePasswordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 120, 160, 60));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/ManagedUser/ManagedUserHomePage/UserHomePageBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 0, 1280, 720));
 
         pack();
@@ -104,6 +113,12 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "Continue...");
     }//GEN-LAST:event_BtnUserTransactionMouseClicked
+
+    private void changePasswordLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changePasswordLabelMouseClicked
+        ChangePassword changePassMenu=new ChangePassword(userID);
+        changePassMenu.show();
+        dispose();
+    }//GEN-LAST:event_changePasswordLabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -145,6 +160,7 @@ public class ManagedUserHomePage extends javax.swing.JFrame {
     private javax.swing.JLabel BtnUserInfo;
     private javax.swing.JLabel BtnUserSupplies;
     private javax.swing.JLabel BtnUserTransaction;
+    private javax.swing.JLabel changePasswordLabel;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
