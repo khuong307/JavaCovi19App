@@ -2,6 +2,8 @@ package javacovid19app.ManagedUser.ManagedUserTransaction;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.io.*;
+import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javacovid19app.ManagedUser.ManagedUserHomePage.*;
@@ -145,37 +147,6 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
             TabTrans.setRowHeight(row, rowHeight);
         }
     }
-    
-    public int getLengthTransaction(){
-        int length = 0;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
-            Statement state = connect.createStatement();
-
-            String sql = "Select * from Transaction";
-            ResultSet res = state.executeQuery(sql);
-
-            while (res.next()) {
-                length++;
-            }
-
-            connect.close();
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ManagedUserTransaction.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(ManagedUserTransaction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return length;
-    }
-    
-    public String getCurrentTime() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-        java.util.Date now = new java.util.Date();
-        String strDate = sdfDate.format(now);
-        return strDate;
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -252,30 +223,50 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnBackMouseClicked
 
     private void BtnConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnConfirmMouseClicked
-        // TODO add your handling code here:
-        try {
+        try {                                        
+            // TODO add your handling code here:
             Class.forName("com.mysql.jdbc.Driver");
             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
             
-            int length = getLengthTransaction();
-            String num = String.format("%05d", length + 1);
-            String TransactionID = "TR" + num;
-
-            String sql = "insert into Transaction(TransactionID, UserID, TransactionTime, AccountID, Total) values"
-                    + "('" + TransactionID + "', '" + userID + "', '" + getCurrentTime() + "', '"
-                    + ReceivedAccount + "', " + loan + ")";
-            state.executeUpdate(sql);
+            String sql = "select * from ManagedUser where UserID = '" + userID + "'";
+            ResultSet res = state.executeQuery(sql);
             
-            sql = "update ManagedUser set Balance = Balance - Loan, Loan = 0 where UserID = " + userID;
-            state.executeUpdate(sql);
-            
-            JOptionPane.showMessageDialog(this, "Transaction successfully!");
+            int val = 0;
+            while (res.next()){
+                val = res.getInt("isPay");
+            }
             connect.close();
             
-            ManagedUserHomePage home = new ManagedUserHomePage(userID);
-            home.show();
-            dispose();
+            if (val == 0){
+                JOptionPane.showMessageDialog(this, "This account need to create an banking account");
+            }
+            
+            else{
+                InetAddress ip = InetAddress.getByName("localhost");
+            
+                Socket s = new Socket(ip, 1234);
+
+                DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+                DataInputStream din = new DataInputStream(s.getInputStream());
+                dos.writeUTF(userID + "-" + loan);
+                
+                String message = din.readUTF();
+                System.out.println(message);
+                JOptionPane.showMessageDialog(this, message);
+                din.close();
+                dos.close();
+                s.close();
+                
+                ManagedUserHomePage hp = new ManagedUserHomePage(userID);
+                hp.show();
+                dispose();
+            }
+
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ManagedUserTransaction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManagedUserTransaction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ManagedUserTransaction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
