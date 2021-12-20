@@ -4,19 +4,137 @@
  */
 package paymentserver.AccountManagement;
 
+import java.awt.Component;
+import java.awt.Font;
 import paymentserver.HomePage.*;
+import java.util.*;
+import java.sql.*;
+import java.util.logging.*;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author DELL
  */
-public class AccountManagement extends javax.swing.JFrame {
+class ManagedUser{
+    private String UserID;
+    private String UserName;
+    private int loan = 0;
 
-    /**
-     * Creates new form AccountManagement
-     */
+    ManagedUser(String id, String name, int loan){
+        this.UserID = id;
+        this.UserName = name;
+        this.loan = loan;
+    }
+    
+    public String getId(){
+        return UserID;
+    }
+    
+    public String getName(){
+        return UserName;
+    }
+    
+    public int getLoan(){
+        return loan;
+    }
+}
+
+public class AccountManagement extends javax.swing.JFrame {
+    private ArrayList<ManagedUser> lst = new ArrayList<ManagedUser>();
+    private int row = -1;
+    private String userid = "";
+    
     public AccountManagement() {
         initComponents();
+        this.setResizable(false);
+        TextUserID.setOpaque(false);
+        TextUserID.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextUserID.setEditable(false);
+        TextAccountID.setOpaque(false);
+        TextAccountID.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextAccountID.setEditable(false);
+        TextBalance.setOpaque(false);
+        TextBalance.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextBalance.setEditable(false);
+        setData();
+        showData();
+        EditTableHeightWidth();
+    }
+    
+    public void setData() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+            
+            String sql = "select * from ManagedUser where isPay = 0";
+            ResultSet res = state.executeQuery(sql);
+            
+            while(res.next()){
+                ManagedUser tmp = new ManagedUser(res.getString("UserID"), res.getString("Fullname"), res.getInt("Loan"));
+                lst.add(tmp);
+            }
+
+            connect.close();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void refreshJTable() {
+        DefaultTableModel model = (DefaultTableModel) TabUser.getModel();
+        while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+    }
+    
+    public void showData() {
+        DefaultTableModel model = (DefaultTableModel) TabUser.getModel();
+        Object[] row = new Object[4];
+
+        for (int i = 0; i < lst.size(); i++) {
+            row[0] = i + 1;
+            row[1] = lst.get(i).getId();
+            row[2] = lst.get(i).getName();
+            row[3] = lst.get(i).getLoan();
+            model.addRow(row);
+        }
+    }
+    
+    public void EditTableHeightWidth() {
+        //edit size of column
+        TabUser.getTableHeader().setFont(new Font("Fredoka One", Font.PLAIN, 16));
+        //tmp.getTableHeader().setForeground(jScrollPane2.getBackground());
+        final TableColumnModel columnModel = TabUser.getColumnModel();
+        for (int column = 0; column < TabUser.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < TabUser.getRowCount(); row++) {
+                TableCellRenderer renderer = TabUser.getCellRenderer(row, column);
+                Component comp = TabUser.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width + 1, width);
+            }
+            if (width > 300) {
+                width = 300;
+            }
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
+
+        for (int row = 0; row < TabUser.getRowCount(); row++) {
+            int rowHeight = TabUser.getRowHeight();
+            for (int column = 0; column < TabUser.getColumnCount(); column++) {
+                Component comp = TabUser.prepareRenderer(TabUser.getCellRenderer(row, column), row, column);
+                rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+            }
+            TabUser.setRowHeight(row, rowHeight);
+        }
     }
 
     /**
@@ -29,6 +147,12 @@ public class AccountManagement extends javax.swing.JFrame {
     private void initComponents() {
 
         BtnBack = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TabUser = new javax.swing.JTable();
+        TextUserID = new javax.swing.JTextField();
+        TextAccountID = new javax.swing.JTextField();
+        TextBalance = new javax.swing.JTextField();
+        BtnAdd = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,6 +164,48 @@ public class AccountManagement extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 70, 70));
+
+        TabUser.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        TabUser.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No", "UserID", "Name", "Loan"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        TabUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabUserMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TabUser);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 147, 580, 520));
+
+        TextUserID.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        getContentPane().add(TextUserID, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 210, 250, 40));
+
+        TextAccountID.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        getContentPane().add(TextAccountID, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 310, 250, 40));
+
+        TextBalance.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        getContentPane().add(TextBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 410, 220, 40));
+
+        BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnAddMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 520, 370, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paymentserver/AccountManagement/AddPaymentAccount.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -53,6 +219,47 @@ public class AccountManagement extends javax.swing.JFrame {
         hp.show();
         dispose();
     }//GEN-LAST:event_BtnBackMouseClicked
+
+    private void BtnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseClicked
+        // TODO add your handling code here:
+        if (userid != ""){
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Statement state = connect.createStatement();
+
+                String sql = "update ManagedUser set isPay = 1 where UserID = '" + userid + "'";
+                state.executeUpdate(sql);
+
+                connect.close();
+                
+                if (row != -1){
+                    lst.remove(row);
+                    refreshJTable();
+                    showData();
+                    EditTableHeightWidth();
+                }
+                row = -1;
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_BtnAddMouseClicked
+
+    private void TabUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabUserMouseClicked
+        // TODO add your handling code here:
+        int index = TabUser.getSelectedRow(); // row that manager choose.
+        row = index;
+        TableModel model = TabUser.getModel();
+        
+        TextUserID.setText(model.getValueAt(index, 1).toString());
+        userid = TextUserID.getText();
+        TextAccountID.setText(model.getValueAt(index, 1).toString());
+        TextBalance.setText("1000000");        
+    }//GEN-LAST:event_TabUserMouseClicked
 
     /**
      * @param args the command line arguments
@@ -90,7 +297,13 @@ public class AccountManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtnAdd;
     private javax.swing.JLabel BtnBack;
+    private javax.swing.JTable TabUser;
+    private javax.swing.JTextField TextAccountID;
+    private javax.swing.JTextField TextBalance;
+    private javax.swing.JTextField TextUserID;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

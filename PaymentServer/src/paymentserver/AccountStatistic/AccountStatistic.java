@@ -17,6 +17,7 @@ public class AccountStatistic extends javax.swing.JFrame {
      */
     public AccountStatistic() {
         initComponents();
+        this.setResizable(false);
     }
 
     /**

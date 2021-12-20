@@ -22,6 +22,7 @@ public class ManagedUser {
     private District district = new District ("", "", "");
     private int balance;
     private int loan;
+    private boolean isPay;
     
     public ManagedUser(){
         ID = "";
@@ -31,6 +32,7 @@ public class ManagedUser {
         InvolvedID = "";
         balance = 0;
         loan = 0;
+        isPay = false;
     }
     public String getCityName(ArrayList<City> cityList, String CityID){
         for (int i  =0;i < cityList.size(); i++){
@@ -250,6 +252,10 @@ public class ManagedUser {
     public int getLoan(){
         return loan;
     }
+    
+    public boolean getIsPay(){
+        return isPay;
+    }
 
     /**
      * @param balance the balance to set
@@ -260,6 +266,10 @@ public class ManagedUser {
     
     public void setLoan(int loan){
         this.loan = loan;
+    }
+    
+    public void setIsPay(boolean status){
+        this.isPay = status;
     }
     
     public void setFacilityID(String ID){
