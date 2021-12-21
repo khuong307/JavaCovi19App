@@ -228,7 +228,7 @@ public class AccountManagement extends javax.swing.JFrame {
                 Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
-                String sql = "update ManagedUser set isPay = 1 where UserID = '" + userid + "'";
+                String sql = "update ManagedUser set isPay = 1, Balance = 1000000 where UserID = '" + userid + "'";
                 state.executeUpdate(sql);
 
                 connect.close();

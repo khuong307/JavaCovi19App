@@ -105,7 +105,7 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
         }
     }
     
-     public void showData() {
+    public void showData() {
         DefaultTableModel model = (DefaultTableModel) TabTrans.getModel();
         Object[] row = new Object[5];
 
