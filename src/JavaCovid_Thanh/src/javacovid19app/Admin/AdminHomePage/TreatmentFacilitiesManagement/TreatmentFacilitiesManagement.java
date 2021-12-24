@@ -4,6 +4,7 @@
  */
 package javacovid19app.Admin.AdminHomePage.TreatmentFacilitiesManagement;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javacovid19app.Admin.AdminHomePage.DataClasses.treatmentFacility;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +20,7 @@ import javax.swing.JOptionPane;
  */
 public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     private ArrayList<treatmentFacility> treatmentFacility= new ArrayList();
+    private int selectedIndex;
     /**
      * Creates new form TreatmentFacilitiesManagement
      */
@@ -45,8 +48,30 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         this.setResizable(false);
         this.setTitle("Supplies Management");
         getTreatmentFacility();
+        TreatmentList.setFont(new java.awt.Font("Fredoka One", 0, 18));
+        TreatmentList.setBackground(new Color (221, 174, 11));
+        ShowInstantTreatment();
     }
-    
+    public void ShowInstantTreatment(){
+        
+        DefaultTableModel model = (DefaultTableModel)TreatmentList.getModel();
+        Object[] row = new Object [3];
+        System.out.print(this.treatmentFacility.size());
+        for (int i = 0; i < this.treatmentFacility.size(); i++){
+            
+                row[0] = treatmentFacility.get(i).getName();
+                row[1] = treatmentFacility.get(i).getQuantity();
+                row[2] = treatmentFacility.get(i).getPresentQuantity();
+                model.addRow(row);
+            
+        }
+    }
+    private void refreshJTable(){
+        DefaultTableModel  model = (DefaultTableModel)TreatmentList.getModel();
+        while (model.getRowCount()>0){
+            model.removeRow(0);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,28 +81,26 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Name = new javax.swing.JTextField();
         PresentQuantity = new javax.swing.JTextField();
         MaximumQuantity = new javax.swing.JTextField();
         BtnAdd = new javax.swing.JLabel();
         BtnSave = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TreatmentList = new javax.swing.JTable();
+        FacilityName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NameActionPerformed(evt);
-            }
-        });
-        getContentPane().add(Name, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 160, 40));
         getContentPane().add(PresentQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 160, 40));
         getContentPane().add(MaximumQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 160, 40));
 
         BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnAddMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                BtnAddMouseEntered(evt);
             }
         });
         getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 424, 120, 50));
@@ -89,16 +112,30 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 120, 50));
 
+        TreatmentList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tên", "Sức chứa", "Số lượng"
+            }
+        ));
+        TreatmentList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TreatmentListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TreatmentList);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 490, 340));
+        getContentPane().add(FacilityName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 160, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/TreatmentFacilitiesManagement/TreatMentManagementBackground(960x540).png"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 550));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void NameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NameActionPerformed
     private int checkExistFacility(String name){
         for (int i = 0; i < this.treatmentFacility.size(); i++){
             if (this.treatmentFacility.get(i).getName().compareTo(name)==0){
@@ -108,7 +145,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         return -1;
     }
     private void BtnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseClicked
-        String name = Name.getText();
+        String name = FacilityName.getText();
         String maximumQuantityText = MaximumQuantity.getText();
         int maximumQuantity=Integer.parseInt(maximumQuantityText);
         
@@ -144,8 +181,8 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         }catch(Exception e){
            System.out.println(e.getMessage());
         }
-        
-        
+        refreshJTable();
+        ShowInstantTreatment();
         
         
     }//GEN-LAST:event_BtnAddMouseClicked
@@ -153,42 +190,58 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     private void BtnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSaveMouseClicked
         // TODO add your handling code here:
         // TODO add your handling code here:
-        String name = Name.getText();
+        
+        String name = FacilityName.getText();
         String maximumQuantityText = MaximumQuantity.getText();
-        int maximumQuantity=Integer.parseInt(maximumQuantityText);
+        
         
         String presentQuantityText = PresentQuantity.getText();
-        int presentQuantity= Integer.parseInt(presentQuantityText);
+        
+        System.out.println(name);
         if (name.isEmpty() || maximumQuantityText.isEmpty() || presentQuantityText.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please provide full information!");
             return;
         }
-        
-        int index = checkExistFacility(name);
-       if ( index == -1){
-            JOptionPane.showMessageDialog(this, "Facility does not existed!");
-            return;
-        }
-            
+        else{
+            int maximumQuantity=Integer.parseInt(maximumQuantityText);
+            int presentQuantity= Integer.parseInt(presentQuantityText);
+            int index=checkExistFacility(this.treatmentFacility.get(selectedIndex).getName());
+            System.out.print(this.treatmentFacility.get(index).getName());
             this.treatmentFacility.get(index).setName(name);
             this.treatmentFacility.get(index).setQuantity(maximumQuantity);
-            this.treatmentFacility.get(index).setPresentQuantity(presentQuantity);                     
+            
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
-                String facility = "Update TreatmentFacility set Name = '"+name+"', Quantity = '"+maximumQuantity+"', PresentQuantity = '"+presentQuantity+"'";
-                state.execute(facility);
+                String necesscary = "Update TreatmentFacility set Name = '"+name+"', Quantity = '"+maximumQuantity+"' where Name = '"+this.treatmentFacility.get(index).getName()+"'";
+                state.execute(necesscary);
                 connect.close();
                 JOptionPane.showMessageDialog(this, "Save successfully!");
+                refreshJTable();
+                ShowInstantTreatment();
             }catch(Exception e){
                System.out.println(e.getMessage());
             }
-            
-        
-        
+        }  
     }//GEN-LAST:event_BtnSaveMouseClicked
+
+    private void BtnAddMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnAddMouseEntered
+
+    private void TreatmentListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreatmentListMouseClicked
+        // TODO add your handling code here:
+        int index=TreatmentList.getSelectedRow();
+        this.selectedIndex=index;     
+        System.out.print(this.selectedIndex);
+        FacilityName.setText(treatmentFacility.get(index).getName());
+        String PresentQuantityString = String.valueOf(treatmentFacility.get(index).getPresentQuantity());
+        PresentQuantity.setText(PresentQuantityString);
+        String MaximumQuantityString = String.valueOf(treatmentFacility.get(index).getQuantity());
+        MaximumQuantity.setText(MaximumQuantityString);
+    }//GEN-LAST:event_TreatmentListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -228,9 +281,12 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnAdd;
     private javax.swing.JLabel BtnSave;
+    private javax.swing.JTextField FacilityName;
     private javax.swing.JTextField MaximumQuantity;
-    private javax.swing.JTextField Name;
     private javax.swing.JTextField PresentQuantity;
+    private javax.swing.JTable TreatmentList;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
 }

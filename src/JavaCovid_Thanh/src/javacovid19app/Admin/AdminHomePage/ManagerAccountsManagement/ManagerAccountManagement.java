@@ -45,7 +45,8 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         refreshJTable();
         refreshJTableLoginHistory();
         ShowInstantManager();
-        
+        TableList.getTableHeader().setFont(new Font("Fredoka One",Font.PLAIN,16));
+        LoginHistory.getTableHeader().setFont(new Font("Fredoka One",Font.PLAIN,16));
         
         
         
@@ -139,7 +140,6 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Username = new javax.swing.JTextField();
         Password = new javax.swing.JPasswordField();
         ConfirmedPassword = new javax.swing.JPasswordField();
         BtnSubmit = new javax.swing.JLabel();
@@ -150,24 +150,17 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         LoginHistory = new javax.swing.JTable();
         BtnLoginHistory = new javax.swing.JLabel();
         btnTest = new javax.swing.JLabel();
+        Username = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Username.setOpaque(false);
-        Username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UsernameActionPerformed(evt);
-            }
-        });
-        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 200, 50));
-
         Password.setOpaque(false);
-        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 200, 50));
+        getContentPane().add(Password, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 210, 50));
 
         ConfirmedPassword.setOpaque(false);
-        getContentPane().add(ConfirmedPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 200, 50));
+        getContentPane().add(ConfirmedPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 210, 50));
 
         BtnSubmit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -183,6 +176,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         });
         getContentPane().add(BtnLock, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 560, 80, 70));
 
+        TableList.setFont(new java.awt.Font("Fredoka One", 0, 11)); // NOI18N
         TableList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -198,7 +192,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TableList);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 180, 400, 220));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 180, 380, 200));
 
         LoginHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -210,7 +204,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(LoginHistory);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 460, 750, 240));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 460, 730, 230));
 
         BtnLoginHistory.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -226,16 +220,23 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         });
         getContentPane().add(btnTest, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 80, 90));
 
+        Username.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        Username.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        Username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        Username.setOpaque(false);
+        Username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsernameActionPerformed(evt);
+            }
+        });
+        getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 210, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/ManagerAccountsManagement/ManagerAccpuntManagentBackground(1280x720).png"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 730));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_UsernameActionPerformed
 
     private void BtnSubmitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSubmitMouseClicked
         // TODO add your handling code here:
@@ -259,7 +260,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
                     ps.setString(4, "1");
                     int i = ps.executeUpdate();
                     if(i>0){
-                        managerAccount tmp =new managerAccount(username);
+                        managerAccount tmp =new managerAccount(username,hashPassowrd);
                         managerList.add(tmp);
                         refreshJTable();
                         ShowInstantManager();
@@ -300,6 +301,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         int index=TableList.getSelectedRow();
         this.selectedIndex=index;     
         System.out.print(this.selectedIndex);
+        Username.setText(managerList.get(index).getID());
     }//GEN-LAST:event_TableListMouseClicked
 
     private void BtnLoginHistoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLoginHistoryMouseClicked
@@ -312,6 +314,10 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
         refreshJTableLoginHistory();
     }//GEN-LAST:event_btnTestMouseClicked
+
+    private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsernameActionPerformed
 
     /**
      * @param args the command line arguments
