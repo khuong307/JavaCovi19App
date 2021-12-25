@@ -5,6 +5,7 @@
 package javacovid19app.Admin.AdminHomePage;
 
 import javacovid19app.Admin.AdminHomePage.ManagerAccountsManagement.ManagerAccountManagement;
+import javacovid19app.Admin.AdminHomePage.TreatmentFacilitiesManagement.TreatmentFacilitiesManagement;
 
 /**
  *
@@ -34,6 +35,12 @@ public class AdminHomePage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        FacilitiesManagement.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FacilitiesManagementMouseClicked(evt);
+            }
+        });
         getContentPane().add(FacilitiesManagement, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 140, 150, 60));
 
         ManagerAccounts.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -55,6 +62,13 @@ public class AdminHomePage extends javax.swing.JFrame {
         ManagerAccountManagement mam = new ManagerAccountManagement();
         mam.show();
     }//GEN-LAST:event_ManagerAccountsMouseClicked
+
+    private void FacilitiesManagementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FacilitiesManagementMouseClicked
+        // TODO add your handling code here:
+        TreatmentFacilitiesManagement facilitiesManagerment = new TreatmentFacilitiesManagement();
+        facilitiesManagerment.show();
+        dispose();
+    }//GEN-LAST:event_FacilitiesManagementMouseClicked
 
     /**
      * @param args the command line arguments

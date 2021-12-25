@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javacovid19app.Admin.AdminHomePage.AdminHomePage;
 import javacovid19app.Admin.AdminHomePage.DataClasses.loginHistory;
 import javacovid19app.Admin.AdminHomePage.DataClasses.managerAccount;
 import static javax.management.remote.JMXConnectorFactory.connect;
@@ -50,6 +51,16 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         
         
         
+    }
+    public int checkExistUser(String username){
+        for (int i = 0; i < this.managerList.size(); i++){
+            
+            if (this.managerList.get(i).getID().compareTo(username)==0){
+                
+                return i;
+            }
+        }
+        return -1;
     }
     private void refreshJTable(){
         DefaultTableModel  model = (DefaultTableModel)TableList.getModel();
@@ -151,6 +162,8 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         BtnLoginHistory = new javax.swing.JLabel();
         btnTest = new javax.swing.JLabel();
         Username = new javax.swing.JTextField();
+        BtnBack = new javax.swing.JLabel();
+        BtnRefresh = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -231,6 +244,21 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
         });
         getContentPane().add(Username, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, 210, 50));
 
+        BtnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnBackMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 80, 70));
+
+        BtnRefresh.setText("jLabel2");
+        BtnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnRefreshMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 60, 50));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/ManagerAccountsManagement/ManagerAccpuntManagentBackground(1280x720).png"))); // NOI18N
         jLabel1.setText("jLabel1");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1240, 730));
@@ -246,7 +274,10 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
              String username=Username.getText();
              String password=Password.getText();
              String confirmPassword=ConfirmedPassword.getText();
-             if(!password.equals(confirmPassword)){
+             if(username.isEmpty()||password.isEmpty()||confirmPassword.isEmpty()){
+                 JOptionPane.showMessageDialog(this, "Please input full information !!");
+             }
+             else if(!password.equals(confirmPassword)){
                 JOptionPane.showMessageDialog(this, "Password does not match !! Please input again !!");
              }
              else{
@@ -312,12 +343,49 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
 
     private void btnTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTestMouseClicked
         // TODO add your handling code here:
-        refreshJTableLoginHistory();
+        String username = Username.getText();
+       
+        
+        if (username.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please provide username!");
+            return;
+        }
+        
+        int index = checkExistUser(username);
+        if ( index == -1){
+            JOptionPane.showMessageDialog(this, "Not found!");
+            return;
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Found!");
+           
+            for (int i = 0; i < this.managerList.size(); i++){
+                if (this.managerList.get(i).getID().contains(username) == true){
+                    break;
+                }             
+            }
+            TableList.setRowSelectionInterval(index, index);
+            return;
+        }
     }//GEN-LAST:event_btnTestMouseClicked
 
     private void UsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UsernameActionPerformed
+
+    private void BtnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackMouseClicked
+        // TODO add your handling code here:
+        AdminHomePage homepage= new AdminHomePage();
+        homepage.show();
+        dispose();
+    }//GEN-LAST:event_BtnBackMouseClicked
+
+    private void BtnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnRefreshMouseClicked
+        // TODO add your handling code here:
+        Username.setText("");
+        Password.setText("");
+        ConfirmedPassword.setText("");
+    }//GEN-LAST:event_BtnRefreshMouseClicked
 
     /**
      * @param args the command line arguments
@@ -355,8 +423,10 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtnBack;
     private javax.swing.JLabel BtnLock;
     private javax.swing.JLabel BtnLoginHistory;
+    private javax.swing.JLabel BtnRefresh;
     private javax.swing.JLabel BtnSubmit;
     private javax.swing.JPasswordField ConfirmedPassword;
     private javax.swing.JTable LoginHistory;

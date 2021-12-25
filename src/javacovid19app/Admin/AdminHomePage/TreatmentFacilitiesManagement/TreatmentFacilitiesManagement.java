@@ -5,11 +5,13 @@
 package javacovid19app.Admin.AdminHomePage.TreatmentFacilitiesManagement;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javacovid19app.Admin.AdminHomePage.AdminHomePage;
 import javacovid19app.Admin.AdminHomePage.DataClasses.treatmentFacility;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -50,6 +52,10 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         getTreatmentFacility();
         TreatmentList.setFont(new java.awt.Font("Fredoka One", 0, 18));
         TreatmentList.setBackground(new Color (221, 174, 11));
+        FacilityName.setFont(new java.awt.Font("Fredoka One", 0, 18));
+        PresentQuantity.setFont(new java.awt.Font("Fredoka One", 0, 18));
+        MaximumQuantity.setFont(new java.awt.Font("Fredoka One", 0, 18));
+        TreatmentList.getTableHeader().setFont(new Font("Fredoka One",Font.PLAIN,16));
         ShowInstantTreatment();
     }
     public void ShowInstantTreatment(){
@@ -88,12 +94,18 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TreatmentList = new javax.swing.JTable();
         FacilityName = new javax.swing.JTextField();
+        BtnBack = new javax.swing.JLabel();
+        BtnRefresh = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(PresentQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 160, 40));
-        getContentPane().add(MaximumQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 160, 40));
+
+        PresentQuantity.setOpaque(false);
+        getContentPane().add(PresentQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 160, 60));
+
+        MaximumQuantity.setOpaque(false);
+        getContentPane().add(MaximumQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 160, 50));
 
         BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -117,7 +129,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tên", "Sức chứa", "Số lượng"
+                "Facilities's name", "Maximum quantity", "Present Quantity"
             }
         ));
         TreatmentList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,7 +140,23 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         jScrollPane1.setViewportView(TreatmentList);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 490, 340));
+
+        FacilityName.setOpaque(false);
         getContentPane().add(FacilityName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 160, 50));
+
+        BtnBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnBackMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 70, 60));
+
+        BtnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnRefreshMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, 50, 50));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/TreatmentFacilitiesManagement/TreatMentManagementBackground(960x540).png"))); // NOI18N
         jLabel1.setText("jLabel1");
@@ -146,11 +174,8 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     }
     private void BtnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseClicked
         String name = FacilityName.getText();
-        String maximumQuantityText = MaximumQuantity.getText();
-        int maximumQuantity=Integer.parseInt(maximumQuantityText);
-        
-        String presentQuantityText = PresentQuantity.getText();
-        int presentQuantity= Integer.parseInt(presentQuantityText);
+        String maximumQuantityText = MaximumQuantity.getText();           
+        String presentQuantityText = PresentQuantity.getText();       
         if (name.isEmpty() || maximumQuantityText.isEmpty() || presentQuantityText.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please provide full information!");
             return;
@@ -160,7 +185,8 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, " Facility existed!");
             return;
         }
-        
+        int maximumQuantity=Integer.parseInt(maximumQuantityText);
+        int presentQuantity= Integer.parseInt(presentQuantityText);
         int size = this.treatmentFacility.size() +1;
         String ID = "F00"+String.valueOf(size);
         treatmentFacility tmp = new treatmentFacility (ID, name, maximumQuantity, presentQuantity);
@@ -243,6 +269,20 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         MaximumQuantity.setText(MaximumQuantityString);
     }//GEN-LAST:event_TreatmentListMouseClicked
 
+    private void BtnBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnBackMouseClicked
+        // TODO add your handling code here:
+        AdminHomePage homepage= new AdminHomePage();
+        homepage.show();
+        dispose();
+    }//GEN-LAST:event_BtnBackMouseClicked
+
+    private void BtnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnRefreshMouseClicked
+        // TODO add your handling code here:
+        FacilityName.setText("");       
+        PresentQuantity.setText("");       
+        MaximumQuantity.setText("");
+    }//GEN-LAST:event_BtnRefreshMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -280,6 +320,8 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BtnAdd;
+    private javax.swing.JLabel BtnBack;
+    private javax.swing.JLabel BtnRefresh;
     private javax.swing.JLabel BtnSave;
     private javax.swing.JTextField FacilityName;
     private javax.swing.JTextField MaximumQuantity;
