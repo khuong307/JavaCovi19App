@@ -2,11 +2,15 @@
 package javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.CovidHistory;
 
 import com.mysql.jdbc.Connection;
+import java.awt.Component;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.sql.*;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.CovidHistory;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.ManagedUser;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 
@@ -45,6 +49,21 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
      
         getCovidHistoryList();
         show_historyCovid();
+        
+        //edit size of column
+        covidHistoryTable.getTableHeader().setFont(new Font("Fredoka One", Font.PLAIN, 14));
+        final TableColumnModel columnModel = covidHistoryTable.getColumnModel();
+        for (int column = 0; column < covidHistoryTable.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < covidHistoryTable.getRowCount(); row++) {
+                TableCellRenderer renderer = covidHistoryTable.getCellRenderer(row, column);
+                Component comp = covidHistoryTable.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
     
     
@@ -141,21 +160,33 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(covidHistoryTable);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 126, 470, 310));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(402, 126, 510, 310));
 
         involvedPersonTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        involvedPersonTextField.setForeground(new java.awt.Color(255, 255, 255));
+        involvedPersonTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        involvedPersonTextField.setOpaque(false);
         getContentPane().add(involvedPersonTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 420, 150, 30));
 
         statusTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        statusTextField.setForeground(new java.awt.Color(255, 255, 255));
         statusTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        statusTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        statusTextField.setOpaque(false);
         getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 150, 30));
 
         beginTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        beginTimeTextField.setForeground(new java.awt.Color(255, 255, 255));
         beginTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        beginTimeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        beginTimeTextField.setOpaque(false);
         getContentPane().add(beginTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, 150, 30));
 
         endTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        endTimeTextField.setForeground(new java.awt.Color(255, 255, 255));
         endTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        endTimeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        endTimeTextField.setOpaque(false);
         getContentPane().add(endTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 150, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\Desktop\\JavaCovi19App-Khang\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\Infomation\\CovidHistory\\CovidHistoryBackground.png")); // NOI18N

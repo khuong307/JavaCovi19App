@@ -1,11 +1,15 @@
 package javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Transaction;
 
+import java.awt.Component;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 public class TransactionHistory extends javax.swing.JFrame {
@@ -41,6 +45,21 @@ public class TransactionHistory extends javax.swing.JFrame {
         
         getTransactionList();
         show_historyTransaction();
+        
+        //edit size of column
+        transHistoryTable.getTableHeader().setFont(new Font("Fredoka One", Font.PLAIN, 14));
+        final TableColumnModel columnModel = transHistoryTable.getColumnModel();
+        for (int column = 0; column < transHistoryTable.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < transHistoryTable.getRowCount(); row++) {
+                TableCellRenderer renderer = transHistoryTable.getCellRenderer(row, column);
+                Component comp = transHistoryTable.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            if(width > 300)
+                width=300;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
     
     
@@ -74,7 +93,11 @@ public class TransactionHistory extends javax.swing.JFrame {
         for (int i=0;i<transactionList.size();i++){
             row[0]=transactionList.get(i).getTransactionID();
             row[1]=transactionList.get(i).getAccountID();
-            row[2]=transactionList.get(i).getTransactionTime();
+            
+            String timeTrans=transactionList.get(i).getTransactionTime().toString();
+            timeTrans = timeTrans.substring(0, timeTrans.indexOf('.'));
+            row[2]=timeTrans;
+            
             row[3]=transactionList.get(i).getTotal();
             row[4]=transactionList.get(i).getBalance();
             model.addRow(row);
@@ -103,24 +126,34 @@ public class TransactionHistory extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        transIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        transIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         transIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        transIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        transIDTextField.setOpaque(false);
         getContentPane().add(transIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 190, 40));
 
-        accountIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        accountIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         accountIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        accountIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        accountIDTextField.setOpaque(false);
         getContentPane().add(accountIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 190, 40));
 
-        timeTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        timeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         timeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        timeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        timeTextField.setOpaque(false);
         getContentPane().add(timeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 310, 40));
 
-        totalTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        totalTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         totalTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        totalTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        totalTextField.setOpaque(false);
         getContentPane().add(totalTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 500, 290, 40));
 
-        balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         balanceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        balanceTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        balanceTextField.setOpaque(false);
         getContentPane().add(balanceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 600, 240, 40));
 
         backLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -147,7 +180,7 @@ public class TransactionHistory extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(transHistoryTable);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 156, 630, 430));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 156, 690, 430));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/ManagedUser/ManagedUserHomePage/Infomation/Transaction/TransactionHistoryBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));

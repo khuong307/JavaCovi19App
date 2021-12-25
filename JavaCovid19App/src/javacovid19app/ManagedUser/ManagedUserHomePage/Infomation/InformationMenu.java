@@ -120,6 +120,10 @@ public class InformationMenu extends javax.swing.JFrame {
                     if(managedUserList.get(j).getID().compareTo(managedUserList.get(i).getInvolvedID())==0){
                         String involvedPerson=managedUserList.get(j).getFullname();
                         relatedTextField.setText(involvedPerson);
+                        break;
+                    }
+                    else{
+                        relatedTextField.setText("NULL");
                     }
                 }
             }
@@ -157,7 +161,7 @@ public class InformationMenu extends javax.swing.JFrame {
             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
-            String sql = "Select ManagedUser.* from ManagedUser, Account where ManagedUser.UserID = Account.UserID and Account.Status = 1";
+            String sql = "Select ManagedUser.* from ManagedUser, Account where ManagedUser.UserID = Account.UserID";
             ResultSet res = state.executeQuery(sql);
             
             ManagedUser tmp;
@@ -331,43 +335,78 @@ public class InformationMenu extends javax.swing.JFrame {
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 50, 40));
 
         personalIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        personalIDTextField.setForeground(new java.awt.Color(255, 255, 255));
         personalIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(personalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, 230, 30));
+        personalIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        personalIDTextField.setOpaque(false);
+        getContentPane().add(personalIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 230, 30));
 
         yobTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        yobTextField.setForeground(new java.awt.Color(255, 255, 255));
         yobTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(yobTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 230, 30));
+        yobTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        yobTextField.setOpaque(false);
+        getContentPane().add(yobTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 230, 30));
 
         cityTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        cityTextField.setForeground(new java.awt.Color(255, 255, 255));
         cityTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(cityTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 230, 30));
+        cityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        cityTextField.setOpaque(false);
+        getContentPane().add(cityTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 330, 230, 30));
 
         districtTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        districtTextField.setForeground(new java.awt.Color(255, 255, 255));
         districtTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(districtTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 230, 40));
+        districtTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        districtTextField.setOpaque(false);
+        getContentPane().add(districtTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, 230, 40));
 
         wardTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        wardTextField.setForeground(new java.awt.Color(255, 255, 255));
         wardTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(wardTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 440, 230, 30));
+        wardTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        wardTextField.setOpaque(false);
+        getContentPane().add(wardTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 230, 30));
 
         statusTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        statusTextField.setForeground(new java.awt.Color(255, 255, 255));
         statusTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        statusTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        statusTextField.setOpaque(false);
+        statusTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusTextFieldActionPerformed(evt);
+            }
+        });
         getContentPane().add(statusTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 490, 230, 30));
 
         balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        balanceTextField.setForeground(new java.awt.Color(255, 255, 255));
         balanceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        balanceTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        balanceTextField.setOpaque(false);
         getContentPane().add(balanceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 590, 230, 30));
 
         relatedTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        relatedTextField.setForeground(new java.awt.Color(255, 255, 255));
         relatedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        relatedTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        relatedTextField.setOpaque(false);
         getContentPane().add(relatedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 230, 30));
 
         fullNameTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        fullNameTextField.setForeground(new java.awt.Color(255, 255, 255));
         fullNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(fullNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 230, 30));
+        fullNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        fullNameTextField.setOpaque(false);
+        getContentPane().add(fullNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 230, 30));
 
         loanTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        loanTextField.setForeground(new java.awt.Color(255, 255, 255));
         loanTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        loanTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        loanTextField.setOpaque(false);
         getContentPane().add(loanTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 640, 230, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\ASUS\\Desktop\\JavaCovi19App-Khang\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserHomePage\\Infomation\\InformationManagedUserBackground.png")); // NOI18N
@@ -407,6 +446,10 @@ public class InformationMenu extends javax.swing.JFrame {
         TransactionHistory transMenu=new TransactionHistory(userID);
         transMenu.show();
     }//GEN-LAST:event_transactionLabelMouseClicked
+
+    private void statusTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
