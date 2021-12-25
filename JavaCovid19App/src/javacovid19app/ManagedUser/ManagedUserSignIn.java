@@ -58,6 +58,7 @@ public class ManagedUserSignIn extends javax.swing.JFrame {
         UserPassword.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
         UserPassword.setForeground(new java.awt.Color(173, 0, 0));
         UserPassword.setBorder(null);
+        UserPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         UserPassword.setOpaque(false);
         getContentPane().add(UserPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, 350, 30));
 
@@ -96,7 +97,7 @@ public class ManagedUserSignIn extends javax.swing.JFrame {
             try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select Password from Account where UserID = '" + username + "' and Type = 3";

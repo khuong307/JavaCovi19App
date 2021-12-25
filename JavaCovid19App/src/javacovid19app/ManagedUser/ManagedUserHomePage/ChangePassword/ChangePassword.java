@@ -117,7 +117,7 @@ public class ChangePassword extends javax.swing.JFrame {
             try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select Password from Account where UserID = '" + userID + "' and Type = 3";

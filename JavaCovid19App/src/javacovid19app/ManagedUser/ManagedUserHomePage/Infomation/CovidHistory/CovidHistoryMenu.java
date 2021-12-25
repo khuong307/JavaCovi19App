@@ -96,7 +96,7 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
     public void getCovidHistoryList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select * from CovidHistory where CovidHistory.UserID= '"+userID+"'";

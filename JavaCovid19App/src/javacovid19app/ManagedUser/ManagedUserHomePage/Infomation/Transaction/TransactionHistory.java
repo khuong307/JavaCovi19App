@@ -67,7 +67,7 @@ public class TransactionHistory extends javax.swing.JFrame {
     public void getTransactionList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select TransactionID,UserID,TransactionTime,Transaction.AccountID,Total,Balance from Transaction,MainAccount where Transaction.UserID= '"+userID+"' and Transaction.AccountID=MainAccount.AccountID";

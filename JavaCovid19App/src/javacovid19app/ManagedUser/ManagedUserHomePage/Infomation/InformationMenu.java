@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javacovid19app.ManagedUser.ManagedUserHomePage.Infomation;
 
 import java.sql.Connection;
@@ -11,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javacovid19app.HomePage.HomePage;
+import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Consume.ConsumeMenu;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.CovidHistory.CovidHistoryMenu;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Transaction.TransactionHistory;
 import javacovid19app.ManagedUser.ManagedUserHomePage.Infomation.Treatment.UserTreatmentMenu;
@@ -23,10 +19,7 @@ import javacovid19app.Manager.ManagerHomePage.DataClasses.TreatmentFacility;
 import javacovid19app.Manager.ManagerHomePage.DataClasses.Ward;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author ASUS
- */
+
 public class InformationMenu extends javax.swing.JFrame {
 
     private ArrayList <Ward> wardList = new ArrayList<>(); 
@@ -77,7 +70,7 @@ public class InformationMenu extends javax.swing.JFrame {
         // Tạo truy vấn lấy loan riêng để ko ảnh hưởng đến class
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select Loan from ManagedUser ";
@@ -137,7 +130,7 @@ public class InformationMenu extends javax.swing.JFrame {
     public void getFacilityList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select * from TreatmentFacility ";
@@ -158,7 +151,7 @@ public class InformationMenu extends javax.swing.JFrame {
     public void getManagedUserList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select ManagedUser.* from ManagedUser, Account where ManagedUser.UserID = Account.UserID";
@@ -180,7 +173,7 @@ public class InformationMenu extends javax.swing.JFrame {
         try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select * from Location";
@@ -202,7 +195,7 @@ public class InformationMenu extends javax.swing.JFrame {
         try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select * from Ward";
@@ -224,7 +217,7 @@ public class InformationMenu extends javax.swing.JFrame {
         try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select * from City";
@@ -245,7 +238,7 @@ public class InformationMenu extends javax.swing.JFrame {
         try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
                 String sql = "Select * from District";
@@ -434,7 +427,8 @@ public class InformationMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_treatmentLabelMouseClicked
 
     private void consumeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consumeLabelMouseClicked
-        JOptionPane.showMessageDialog(this, "continue....");
+        ConsumeMenu consumeMenu=new ConsumeMenu(userID);
+        consumeMenu.show();
     }//GEN-LAST:event_consumeLabelMouseClicked
 
     private void covidLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_covidLabelMouseClicked

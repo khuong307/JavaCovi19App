@@ -121,7 +121,7 @@ public class UserTreatmentMenu extends javax.swing.JFrame {
     public void getTreatementHistoryList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select * from TreatmentHistory where TreatmentHistory.UserID= '"+userID+"'";
@@ -144,7 +144,7 @@ public class UserTreatmentMenu extends javax.swing.JFrame {
     public void getTreatementFacilityList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Connection connect = (Connection) DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = true", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
 
             String sql = "Select TreatmentFacility.FacilityID,Name,Quantity,PresentQuantity from TreatmentFacility,TreatmentHistory where TreatmentHistory.UserID= '"+userID+"' and TreatmentFacility.FacilityID=TreatmentHistory.FacilityID";
