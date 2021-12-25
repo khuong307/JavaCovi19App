@@ -10,6 +10,7 @@ import paymentserver.HomePage.*;
 import java.util.*;
 import java.sql.*;
 import java.util.logging.*;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -61,6 +62,7 @@ public class AccountManagement extends javax.swing.JFrame {
         TextBalance.setOpaque(false);
         TextBalance.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         TextBalance.setEditable(false);
+        TabUser.setDefaultEditor(Object.class, null);
         setData();
         showData();
         EditTableHeightWidth();
@@ -238,6 +240,7 @@ public class AccountManagement extends javax.swing.JFrame {
                     refreshJTable();
                     showData();
                     EditTableHeightWidth();
+                    JOptionPane.showMessageDialog(this, "Create payment account successfully!");
                 }
                 row = -1;
 

@@ -126,13 +126,14 @@
     <Component class="CustomComboBox.ComboBox" name="SortComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="ID Ascending"/>
-            <StringItem index="1" value="ID Descending"/>
-            <StringItem index="2" value="Name Ascending"/>
-            <StringItem index="3" value="Name Descending"/>
-            <StringItem index="4" value="Price Ascending"/>
-            <StringItem index="5" value="Price Descending"/>
+          <StringArray count="7">
+            <StringItem index="0" value="No Sort"/>
+            <StringItem index="1" value="ID Ascending"/>
+            <StringItem index="2" value="ID Descending"/>
+            <StringItem index="3" value="Name Ascending"/>
+            <StringItem index="4" value="Name Descending"/>
+            <StringItem index="5" value="Price Ascending"/>
+            <StringItem index="6" value="Price Descending"/>
           </StringArray>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -142,20 +143,21 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="30" y="190" width="140" height="-1"/>
+          <AbsoluteConstraints x="0" y="180" width="190" height="60"/>
         </Constraint>
       </Constraints>
     </Component>
     <Component class="CustomComboBox.ComboBox" name="FilterComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="Instant Food"/>
-            <StringItem index="1" value="Fruit"/>
-            <StringItem index="2" value="Essential"/>
-            <StringItem index="3" value="Low Price"/>
-            <StringItem index="4" value="Medium Price"/>
-            <StringItem index="5" value="High Price"/>
+          <StringArray count="7">
+            <StringItem index="0" value="No Filter"/>
+            <StringItem index="1" value="Instant Food"/>
+            <StringItem index="2" value="Fruit"/>
+            <StringItem index="3" value="Essential"/>
+            <StringItem index="4" value="Low Price"/>
+            <StringItem index="5" value="Medium Price"/>
+            <StringItem index="6" value="High Price"/>
           </StringArray>
         </Property>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -165,7 +167,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="30" y="450" width="140" height="-1"/>
+          <AbsoluteConstraints x="0" y="438" width="190" height="60"/>
         </Constraint>
       </Constraints>
     </Component>

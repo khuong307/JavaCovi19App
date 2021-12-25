@@ -10,6 +10,7 @@ import paymentserver.HomePage.*;
 import java.sql.*;
 import java.util.logging.*;
 import java.util.*;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -53,9 +54,12 @@ public class AccountStatistic extends javax.swing.JFrame {
         TextAccountID.setEditable(false);
         TextAccountID.setOpaque(false);
         TextAccountID.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextAccountID.setHorizontalAlignment(JTextField.CENTER);
         TextBalance.setEditable(false);
         TextBalance.setOpaque(false);
         TextBalance.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        TextBalance.setHorizontalAlignment(JTextField.CENTER);
+        TabTrans.setDefaultEditor(Object.class, null);
         setData();
         refreshJTable();
         showData(trans);
@@ -190,10 +194,10 @@ public class AccountStatistic extends javax.swing.JFrame {
         });
         getContentPane().add(BtnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 70, 70));
 
-        TextBalance.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        TextBalance.setFont(new java.awt.Font("Fredoka One", 0, 30)); // NOI18N
         getContentPane().add(TextBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 550, 390, 40));
 
-        TextAccountID.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
+        TextAccountID.setFont(new java.awt.Font("Fredoka One", 0, 30)); // NOI18N
         getContentPane().add(TextAccountID, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 390, 40));
 
         BtnFilter.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -203,8 +207,8 @@ public class AccountStatistic extends javax.swing.JFrame {
         });
         getContentPane().add(BtnFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(1185, 70, 50, 60));
 
-        ComboBoxFilter.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
-        getContentPane().add(ComboBoxFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 96, 130, 40));
+        ComboBoxFilter.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        getContentPane().add(ComboBoxFilter, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 70, 190, 60));
 
         TabTrans.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
         TabTrans.setModel(new javax.swing.table.DefaultTableModel(

@@ -75,7 +75,6 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         refreshJTable(this.TabSupplies);
         showData(this.TabSupplies, this.lst);
         EditTableHeightWidth(this.TabSupplies);
-        temp = lst;
     }
 
     public ManagedUserSupplies(String username) {
@@ -84,6 +83,8 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         TextSearch.setOpaque(false);
         TextSearch.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         setData();
+        TabSupplies.setDefaultEditor(Object.class, null);
+        TabCartList.setDefaultEditor(Object.class, null);
         setConsumeHistory();
         size = ConHis.size();
         refreshJTable(this.TabSupplies);
@@ -216,8 +217,75 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
             tmp.setRowHeight(row, rowHeight);
         }
     }
+    
+    public void showWithCondition(){
+        String name = TextSearch.getText();
+        String typeSort = SortComboBox.getSelectedItem().toString();
+        String typeFilter = FilterComboBox.getSelectedItem().toString();
+        ArrayList<Necessary> currentList = new ArrayList<Necessary>(lst);
+        currentList = search(name, currentList);
+        currentList = sort(typeSort, currentList);
+        currentList = filter(typeFilter, currentList);
+        for (int i = 0; i < currentList.size(); i++){
+            System.out.println(currentList.get(i).getID());
+        }
+        refreshJTable(this.TabSupplies);
+        showData(this.TabSupplies, currentList);
+        EditTableHeightWidth(this.TabSupplies);
+    }
+    
+    public ArrayList<Necessary> search(String name, ArrayList<Necessary> currentList){
+        if (!name.isEmpty()) {
+            int i = 0;
+            while (i < currentList.size()){
+                Necessary tmp = currentList.get(i);
+                String necName = tmp.getName().split(" \\(")[0];
+                if (!necName.toLowerCase().contains(name.toLowerCase())) {
+                    currentList.remove(tmp);
+                }
+                else
+                    i++;
+            }
+        }
+        return currentList;
+    }
+    
+    public ArrayList<Necessary> sort(String typeSort, ArrayList<Necessary> currentList){
+        if (typeSort.equals("ID Ascending")) {
+            sortById(true, currentList);
+        } else if (typeSort.equals("ID Descending")) {
+            sortById(false, currentList);
+        } else if (typeSort.equals("Name Ascending")) {
+            sortByName(true, currentList);
+        } else if (typeSort.equals("Name Descending")) {
+            sortByName(false, currentList);
+        } else if (typeSort.equals("Price Ascending")) {
+            sortByPrice(true, currentList);
+        } else if (typeSort.equals("Price Descending")) {
+            sortByPrice(false, currentList);
+        }
+        return currentList;
+    } 
+    
+    public ArrayList<Necessary> filter(String typeFilter, ArrayList<Necessary> currentList){
+        if (typeFilter.equals("Instant Food")) {
+            currentList = filterType("1", currentList);
+        } else if (typeFilter.equals("Fruit")) {
+            currentList = filterType("2", currentList);
+        } else if (typeFilter.equals("Essential")) {
+            currentList = filterType("3", currentList);
+        } else if (typeFilter.equals("Low Price")) {
+            currentList = filterPrice(0, 9999, currentList);
+        } else if (typeFilter.equals("Medium Price")) {
+            currentList = filterPrice(10000, 50000, currentList);
+        } else if (typeFilter.equals("High Price")) {
+            int max = getMaxPrice();
+            currentList = filterPrice(50001, max, currentList);
+        }
+        return currentList;
+    }
 
-    public void sortById(boolean type) {
+    public void sortById(boolean type, ArrayList<Necessary> temp) {
         if (type) {
             for (int i = 0; i < temp.size() - 1; i++) {
                 for (int j = i + 1; j < temp.size(); j++) {
@@ -237,7 +305,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }
 
-    public void sortByName(boolean type) {
+    public void sortByName(boolean type, ArrayList<Necessary> temp) {
         if (type) {
             for (int i = 0; i < temp.size() - 1; i++) {
                 for (int j = i + 1; j < temp.size(); j++) {
@@ -257,7 +325,7 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }
 
-    public void sortByPrice(boolean type) {
+    public void sortByPrice(boolean type, ArrayList<Necessary> temp) {
         if (type) {
             for (int i = 0; i < temp.size() - 1; i++) {
                 for (int j = i + 1; j < temp.size(); j++) {
@@ -277,22 +345,22 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         }
     }
 
-    public ArrayList<Necessary> filterType(String type) {
+    public ArrayList<Necessary> filterType(String type, ArrayList<Necessary> currentList) {
         ArrayList<Necessary> res = new ArrayList<Necessary>();
-        for (int i = 0; i < temp.size(); i++) {
-            if (temp.get(i).getType().equals(type)) {
-                res.add(temp.get(i));
+        for (int i = 0; i < currentList.size(); i++) {
+            if (currentList.get(i).getType().equals(type)) {
+                res.add(currentList.get(i));
             }
         }
         return res;
     }
 
-    public ArrayList<Necessary> filterPrice(int min, int max) {
+    public ArrayList<Necessary> filterPrice(int min, int max, ArrayList<Necessary> currentList) {
         ArrayList<Necessary> res = new ArrayList<Necessary>();
-        for (int i = 0; i < temp.size(); i++) {
-            int price = Integer.valueOf(temp.get(i).getPrice());
+        for (int i = 0; i < currentList.size(); i++) {
+            int price = Integer.valueOf(currentList.get(i).getPrice());
             if (price >= min && price <= max) {
-                res.add(temp.get(i));
+                res.add(currentList.get(i));
             }
         }
         return res;
@@ -400,15 +468,15 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSort, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, 50, 50));
 
-        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID Ascending", "ID Descending", "Name Ascending", "Name Descending", "Price Ascending", "Price Descending" }));
+        SortComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Sort", "ID Ascending", "ID Descending", "Name Ascending", "Name Descending", "Price Ascending", "Price Descending" }));
         SortComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
         SortComboBox.setOpaque(false);
-        getContentPane().add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 140, -1));
+        getContentPane().add(SortComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 190, 60));
 
-        FilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Instant Food", "Fruit", "Essential", "Low Price", "Medium Price", "High Price" }));
+        FilterComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Filter", "Instant Food", "Fruit", "Essential", "Low Price", "Medium Price", "High Price" }));
         FilterComboBox.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
         FilterComboBox.setOpaque(false);
-        getContentPane().add(FilterComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 140, -1));
+        getContentPane().add(FilterComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 438, 190, 60));
 
         BtnFilter.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -477,71 +545,17 @@ public class ManagedUserSupplies extends javax.swing.JFrame {
 
     private void BtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchMouseClicked
         // TODO add your handling code here:
-        String name = TextSearch.getText();
-        ArrayList<Necessary> res = new ArrayList<Necessary>();
-        if (name.isEmpty()) {
-            refreshJTable(this.TabSupplies);
-            showData(this.TabSupplies, temp);
-            EditTableHeightWidth(this.TabSupplies);
-            temp = lst;
-        } else {
-            for (int i = 0; i < this.temp.size(); i++) {
-                Necessary tmp = this.temp.get(i);
-                String necName = tmp.getName().split(" \\(")[0];
-                if (necName.toLowerCase().contains(name.toLowerCase())) {
-                    res.add(tmp);
-                }
-            }
-            refreshJTable(this.TabSupplies);
-            showData(this.TabSupplies, res);
-            EditTableHeightWidth(this.TabSupplies);
-            temp = res;
-        }
+        showWithCondition();
     }//GEN-LAST:event_BtnSearchMouseClicked
 
     private void BtnSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSortMouseClicked
-        // TODO add your handling code here:
-        String typeSort = SortComboBox.getSelectedItem().toString();
-        if (typeSort.equals("ID Ascending")) {
-            sortById(true);
-        } else if (typeSort.equals("ID Descending")) {
-            sortById(false);
-        } else if (typeSort.equals("Name Ascending")) {
-            sortByName(true);
-        } else if (typeSort.equals("Name Descending")) {
-            sortByName(false);
-        } else if (typeSort.equals("Price Ascending")) {
-            sortByPrice(true);
-        } else if (typeSort.equals("Price Descending")) {
-            sortByPrice(false);
-        }
-
-        refreshJTable(this.TabSupplies);
-        showData(this.TabSupplies, temp);
-        EditTableHeightWidth(this.TabSupplies);
+    // TODO add your handling code here:
+        showWithCondition();
     }//GEN-LAST:event_BtnSortMouseClicked
 
     private void BtnFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnFilterMouseClicked
         // TODO add your handling code here:
-        String typeFilter = FilterComboBox.getSelectedItem().toString();
-        if (typeFilter.equals("Instant Food")) {
-            temp = filterType("1");
-        } else if (typeFilter.equals("Fruit")) {
-            temp = filterType("2");
-        } else if (typeFilter.equals("Essential")) {
-            temp = filterType("3");
-        } else if (typeFilter.equals("Low Price")) {
-            temp = filterPrice(0, 9999);
-        } else if (typeFilter.equals("Medium Price")) {
-            temp = filterPrice(10000, 50000);
-        } else if (typeFilter.equals("High Price")) {
-            int max = getMaxPrice();
-            temp = filterPrice(50001, max);
-        }
-
-        refreshJTable(this.TabSupplies);
-        showData(this.TabSupplies, temp);
-        EditTableHeightWidth(this.TabSupplies);
+        showWithCondition();
     }//GEN-LAST:event_BtnFilterMouseClicked
 
     private void BtnAddToCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddToCartMouseClicked
