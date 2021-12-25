@@ -180,7 +180,7 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
                 BtnSubmitMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 560, 80, 80));
+        getContentPane().add(BtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 560, 80, 80));
 
         BtnLock.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -274,8 +274,12 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
              String username=Username.getText();
              String password=Password.getText();
              String confirmPassword=ConfirmedPassword.getText();
+             
              if(username.isEmpty()||password.isEmpty()||confirmPassword.isEmpty()){
                  JOptionPane.showMessageDialog(this, "Please input full information !!");
+             }
+             else if(checkExistUser(username)!=-1){
+                 JOptionPane.showMessageDialog(this, "User exist !! Please input again !!");
              }
              else if(!password.equals(confirmPassword)){
                 JOptionPane.showMessageDialog(this, "Password does not match !! Please input again !!");

@@ -203,7 +203,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                                                 + " values ('"+ID+"', '"+name+"', '"+maximumQuantity+"','"+presentQuantity+"')";
             state.execute(necesscary);
             connect.close();
-            JOptionPane.showMessageDialog(this, "Add new Facility successful!");
+            JOptionPane.showMessageDialog(this, " Add new Facility with successful!");
         }catch(Exception e){
            System.out.println(e.getMessage());
         }
@@ -244,6 +244,9 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                 String necesscary = "Update TreatmentFacility set Name = '"+name+"', Quantity = '"+maximumQuantity+"' where Name = '"+this.treatmentFacility.get(index).getName()+"'";
                 state.execute(necesscary);
                 connect.close();
+                if(!presentQuantityText.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "System will not change present quantity.Save successfully!");
+                }
                 JOptionPane.showMessageDialog(this, "Save successfully!");
                 refreshJTable();
                 ShowInstantTreatment();

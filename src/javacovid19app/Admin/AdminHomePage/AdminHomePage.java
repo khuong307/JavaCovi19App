@@ -6,7 +6,7 @@ package javacovid19app.Admin.AdminHomePage;
 
 import javacovid19app.Admin.AdminHomePage.ManagerAccountsManagement.ManagerAccountManagement;
 import javacovid19app.Admin.AdminHomePage.TreatmentFacilitiesManagement.TreatmentFacilitiesManagement;
-
+import javacovid19app.HomePage;
 /**
  *
  * @author tongt
@@ -31,6 +31,7 @@ public class AdminHomePage extends javax.swing.JFrame {
 
         FacilitiesManagement = new javax.swing.JLabel();
         ManagerAccounts = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -49,6 +50,13 @@ public class AdminHomePage extends javax.swing.JFrame {
             }
         });
         getContentPane().add(ManagerAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, 150, 60));
+
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 0, 60, 40));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/AdminHomePageBackground(960x540).png"))); // NOI18N
         jLabel6.setText("jLabel6");
@@ -69,6 +77,13 @@ public class AdminHomePage extends javax.swing.JFrame {
         facilitiesManagerment.show();
         dispose();
     }//GEN-LAST:event_FacilitiesManagementMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        Homepage homepage= new Homepage();
+        homepage.show();
+        dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -108,6 +123,7 @@ public class AdminHomePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel FacilitiesManagement;
     private javax.swing.JLabel ManagerAccounts;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }
