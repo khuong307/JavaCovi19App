@@ -11,6 +11,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import javacovid19app.HomePage.HomePage;
+import javacovid19app.Admin.AdminHomePage.AdminHomePage;
 
 /**
  *
@@ -104,6 +105,8 @@ public class AdminSignInNTimes extends javax.swing.JFrame {
                     System.out.println(real_pass);
                     if (BCrypt.checkpw(password, real_pass) == true){
                         JOptionPane.showMessageDialog(this, "Login successfully.");
+                        AdminHomePage adminHomePage=new AdminHomePage();
+                        adminHomePage.show();
                         dispose();
                     }
                     else{

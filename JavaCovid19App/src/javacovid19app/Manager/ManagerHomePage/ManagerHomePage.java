@@ -63,6 +63,11 @@ public class ManagerHomePage extends javax.swing.JFrame {
        
         // bar chart with status city data.
         StatusCityBarChart();
+        
+        // polar chart consume nessaries.
+        polarConsumeChart();
+        //
+        LoanBarChart();
     }
     
     //set up for Polar F status chart
@@ -81,9 +86,39 @@ public class ManagerHomePage extends javax.swing.JFrame {
         int still_treament = calcStatus("1");
         int recover = calcStatus("2");
         PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (181, 14, 20), "Disease", disease));
-        PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (240, 219, 84), "Involved", still_treament));
+        PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (245, 163, 39), "Involved", still_treament));
         PolarFStatusChart.addItem(new ModelPolarAreaChart (new Color (65, 181, 94), "Recover", recover));
         PolarFStatusChart.start();
+    }
+    
+    public int getComsumeHistoryByType(int type){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+
+            String sql = "Select COUNT(ConsumeHistory.NecessariesID) AS NumberOfNess from ConsumeHistory, Necessaries where ConsumeHistory.NecessariesID = Necessaries.NecessariesID and Necessaries.Type = '"+type+"'";
+            ResultSet res = state.executeQuery(sql);
+            String num = "";
+            while(res.next()){
+                num = res.getString("NumberOfNess");
+            }
+            connect.close();
+            return Integer.valueOf(num);
+           }catch(Exception e){
+           System.out.println(e.getMessage());
+           return 0;
+        }
+    }
+    
+    public void polarConsumeChart(){
+        int instant = getComsumeHistoryByType(1);
+        int fruit = getComsumeHistoryByType(2);
+        int essential = getComsumeHistoryByType(3);
+        polarConsumeNess.addItem(new ModelPolarAreaChart (new Color (252, 186, 3), "Instant", instant));
+        polarConsumeNess.addItem(new ModelPolarAreaChart (new Color (224, 99, 99), "Fruit", fruit));
+        polarConsumeNess.addItem(new ModelPolarAreaChart (new Color (85, 109, 173), "Essential", essential)); 
+        polarConsumeNess.start();
     }
   
     
@@ -127,6 +162,75 @@ public class ManagerHomePage extends javax.swing.JFrame {
         }
         barChartCity.start();
     }
+    
+        public void LoanBarChart(){
+        barChartLoan.addLegend("0", new Color(129, 204, 191));
+        barChartLoan.addLegend("<200K", new Color(193, 129, 204));
+        barChartLoan.addLegend("200K->500K", new Color(227, 70, 138));
+        barChartLoan.addLegend("500K->1M", new Color(255, 15, 15));
+        String quater [] = {"Loan Amount Bar Chart"};
+      
+        int noLoan = getLoanCountByRange(1);
+        int loan200 = getLoanCountByRange(2);
+        int loan500 = getLoanCountByRange(3);
+        int loan1M = getLoanCountByRange(4);
+        barChartLoan.addData(new ModelChart(quater[0], new double[]{noLoan, loan200, loan500, loan1M}));
+        barChartLoan.start();
+    }
+    
+    public int getLoanCountByRange(int type){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            Statement state = connect.createStatement();
+            if(type == 1){
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan = 0";
+                ResultSet res = state.executeQuery(sql);
+                String num = "";
+                while(res.next()){
+                    num = res.getString("NumberOfUser");
+                }
+                connect.close();
+                return Integer.valueOf(num);
+            }
+            else if(type == 2){
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 1 AND 200000";
+                ResultSet res = state.executeQuery(sql);
+                String num = "";
+                while(res.next()){
+                    num = res.getString("NumberOfUser");
+                }
+                connect.close();
+                return Integer.valueOf(num);
+            }
+            else if(type == 3){
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 200001 AND 500000";
+                ResultSet res = state.executeQuery(sql);
+                String num = "";
+                while(res.next()){
+                    num = res.getString("NumberOfUser");
+                }
+                connect.close();
+                return Integer.valueOf(num);
+            }
+            else if(type == 4){
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 500001 AND 1000000";
+                ResultSet res = state.executeQuery(sql);
+                String num = "";
+                while(res.next()){
+                    num = res.getString("NumberOfUser");
+                }
+                connect.close();
+                return Integer.valueOf(num);
+            }
+           }catch(Exception e){
+                System.out.println(e.getMessage());
+                return 0;
+            }
+        return 0;
+    }
+    
+
     
     
     // get Facility data
@@ -317,6 +421,9 @@ public class ManagerHomePage extends javax.swing.JFrame {
         BtnLogout = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        polarConsumeNess = new PolarChart.PolarAreaChart();
+        jLabel4 = new javax.swing.JLabel();
+        barChartLoan = new BarChartAnimation.BarChart();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -372,6 +479,28 @@ public class ManagerHomePage extends javax.swing.JFrame {
         jLabel3.setText("BAR CHART: COVID STATUS BY TIME PERIOD");
         jLabel3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 360, 330, -1));
+
+        polarConsumeNess.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        polarConsumeNess.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                polarConsumeNessMouseClicked(evt);
+            }
+        });
+        getContentPane().add(polarConsumeNess, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 240, 210));
+
+        jLabel4.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("NECESSARIES CONSUME POLAR CHART");
+        jLabel4.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 640, -1, -1));
+
+        barChartLoan.setOpaque(false);
+        barChartLoan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                barChartLoanMouseClicked(evt);
+            }
+        });
+        getContentPane().add(barChartLoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 410, 380, 260));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomeBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
@@ -430,6 +559,16 @@ public class ManagerHomePage extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_BtnLogoutMouseClicked
 
+    private void polarConsumeNessMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_polarConsumeNessMouseClicked
+        // TODO add your handling code here:
+        polarConsumeNess.start();
+    }//GEN-LAST:event_polarConsumeNessMouseClicked
+
+    private void barChartLoanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barChartLoanMouseClicked
+        // TODO add your handling code here:
+        barChartLoan.start();
+    }//GEN-LAST:event_barChartLoanMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -471,8 +610,11 @@ public class ManagerHomePage extends javax.swing.JFrame {
     private javax.swing.JLabel BtnSupplies;
     private PolarChart.PolarAreaChart PolarFStatusChart;
     private BarChartAnimation.BarChart barChartCity;
+    private BarChartAnimation.BarChart barChartLoan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private PolarChart.PolarAreaChart polarConsumeNess;
     // End of variables declaration//GEN-END:variables
 }

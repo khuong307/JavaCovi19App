@@ -1230,7 +1230,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             UpdateManagedUserTable();
             JOptionPane.showMessageDialog(this, "Check your update!");
             refreshJTable();
-            
         }
     }//GEN-LAST:event_BtnSaveMouseClicked
 

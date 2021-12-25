@@ -8,9 +8,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javacovid19app.HomePage.HomePage;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import javacovid19app.ManagedUser.ManagedUserHomePage.*;
 
 /**
  *
@@ -83,44 +86,50 @@ public class ManagedUserSignIn extends javax.swing.JFrame {
         // if User click Sign In
         // TODO add your handling code here:
         // check account for login admin services.
-        
+
         String username = UserID.getText();
         String password = UserPassword.getText();
-        
-        if (username.isEmpty() && password.isEmpty()){
+
+        if (username.isEmpty() && password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please provide username and password!");
-        }
-        else{
+        } else {
             try {
                 //use SQL Query to update admin password.
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
                 Statement state = connect.createStatement();
 
-                String sql = "Select Password from Account where UserID = '"+username+"' and Type = 3";
+                String sql = "Select Password from Account where UserID = '" + username + "' and Type = 3";
                 ResultSet res = state.executeQuery(sql);
 
-                if (res.next()){
+                if (res.next()) {
                     String real_pass = res.getString(1);
                     System.out.println(real_pass);
-                    if (BCrypt.checkpw(password, real_pass) == true){
+                    if (BCrypt.checkpw(password, real_pass) == true) {
                         JOptionPane.showMessageDialog(this, "Login successfully.");
+                        ManagedUserHomePage homepage = new ManagedUserHomePage(username);
+                        
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        String loginTime = formatter.format(date).toString();
+                        String loginHis = "INSERT INTO LoginHistory (UserID, LoginTime) "+"VALUES ('"+username+"', '"+loginTime+"')";
+                        state.execute(loginHis);
+                        
+                        homepage.show();
                         dispose();
-                    }
-                    else{
+                    } else {
                         JOptionPane.showMessageDialog(this, "Wrong username or password!");
                         UserID.setText("");
                         UserPassword.setText("");
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Wrong username or password!");
+                    UserID.setText("");
+                    UserPassword.setText("");
                 }
-                else{
-                        JOptionPane.showMessageDialog(this, "Wrong username or password!");
-                        UserID.setText("");
-                        UserPassword.setText("");
-                    }
                 connect.close();
-            }catch(Exception e){
-            System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
     }//GEN-LAST:event_BtnUserSignInMouseClicked

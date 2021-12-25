@@ -22,6 +22,7 @@ public class ManagedUser {
     private District district = new District ("", "", "");
     private int balance;
     private int loan;
+    private boolean isPay;
     
     public ManagedUser(){
         ID = "";
@@ -281,6 +282,10 @@ public class ManagedUser {
         this.FacilityName.setQuantity(quantity);
     }
     
-    
-    
+    public void setIsPay(boolean status){
+        this.isPay = status;
+    }
+    public boolean getIsPay(){
+        return isPay;
+    }
 }
