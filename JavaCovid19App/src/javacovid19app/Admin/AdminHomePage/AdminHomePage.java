@@ -6,6 +6,7 @@ package javacovid19app.Admin.AdminHomePage;
 
 import javacovid19app.Admin.AdminHomePage.ManagerAccountsManagement.ManagerAccountManagement;
 import javacovid19app.Admin.AdminHomePage.TreatmentFacilitiesManagement.TreatmentFacilitiesManagement;
+import javacovid19app.HomePage.HomePage;
 
 /**
  *
@@ -32,6 +33,7 @@ public class AdminHomePage extends javax.swing.JFrame {
 
         FacilitiesManagement = new javax.swing.JLabel();
         ManagerAccounts = new javax.swing.JLabel();
+        BtnLogout = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,6 +52,13 @@ public class AdminHomePage extends javax.swing.JFrame {
             }
         });
         getContentPane().add(ManagerAccounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 200, 300));
+
+        BtnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnLogoutMouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 10, 60, 60));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/AdminHomePageBackground(960x540).png"))); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 540));
@@ -70,6 +79,13 @@ public class AdminHomePage extends javax.swing.JFrame {
         facilitiesManagerment.show();
         dispose();
     }//GEN-LAST:event_FacilitiesManagementMouseClicked
+
+    private void BtnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLogoutMouseClicked
+        // TODO add your handling code here:
+        HomePage home = new HomePage();
+        home.show();
+        dispose();
+    }//GEN-LAST:event_BtnLogoutMouseClicked
 
     /**
      * @param args the command line arguments
@@ -107,6 +123,7 @@ public class AdminHomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BtnLogout;
     private javax.swing.JLabel FacilitiesManagement;
     private javax.swing.JLabel ManagerAccounts;
     private javax.swing.JLabel jLabel6;

@@ -52,6 +52,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     public ManagerCovid19InvolvedPeople() {
         this.setResizable(false);
         initComponents();
+        jTable_Display_User.setDefaultEditor(Object.class, null);
         this.setTitle("Covid 19 Involved People Management");
         getArrayWardList();
         getArrayCityList();

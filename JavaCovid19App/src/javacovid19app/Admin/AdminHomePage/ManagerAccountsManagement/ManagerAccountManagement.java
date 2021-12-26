@@ -38,6 +38,8 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
     public ArrayList<loginHistory>loginHistory=new ArrayList<>();
     public ManagerAccountManagement() {
         initComponents();
+        TableList.setDefaultEditor(Object.class, null);
+        LoginHistory.setDefaultEditor(Object.class, null);
         this.setTitle("Manager Accounts Management");
         this.setResizable(false); // can not fix size of a Frame;
         Username.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
@@ -113,30 +115,31 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
     public void ShowLoginHistory(){
         refreshJTableLoginHistory();
         try{        
-                    this.loginHistory=new ArrayList<>();
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection connection=DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");             
-                    String sql="Select * from LoginHistory where LoginHistory.UserID='"+this.managerList.get(this.selectedIndex).getID()+"'";
-                    
-                    Statement state = connection.createStatement();                       
-                    ResultSet res = state.executeQuery(sql);
-                    loginHistory tmp;
-                   
-                    while(res.next()){
-                        tmp=new loginHistory(res.getString("LoginTime"),res.getString("LogoutTime"));                       
-                        this.loginHistory.add(tmp);
-                    }         
-                    Collections.reverse(this.loginHistory);
-                    
-                    DefaultTableModel model = (DefaultTableModel)LoginHistory.getModel();
-                    Object[] row = new Object [2];
-                    
-                    for(int i = 0; i < loginHistory.size(); i++){   
-                        row[0] = loginHistory.get(i).getLoginTime();
-                        row[1] = loginHistory.get(i).getLogoutTime();
-                        model.addRow(row);                  
-                    }
-                    connection.close();              
+            String username = Username.getText();
+            this.loginHistory=new ArrayList<>();
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection=DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");             
+            String sql="Select * from LoginHistory where LoginHistory.UserID='"+username+"'";
+
+            Statement state = connection.createStatement();                       
+            ResultSet res = state.executeQuery(sql);
+            loginHistory tmp;
+
+            while(res.next()){
+                tmp=new loginHistory(res.getString("LoginTime"),res.getString("LogoutTime"));                       
+                this.loginHistory.add(tmp);
+            }         
+            Collections.reverse(this.loginHistory);
+
+            DefaultTableModel model = (DefaultTableModel)LoginHistory.getModel();
+            Object[] row = new Object [2];
+
+            for(int i = 0; i < loginHistory.size(); i++){   
+                row[0] = loginHistory.get(i).getLoginTime();
+                row[1] = loginHistory.get(i).getLogoutTime();
+                model.addRow(row);                  
+            }
+            connection.close();              
         }catch(Exception e){
             
         }
@@ -284,6 +287,9 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
              if(username.isEmpty()||password.isEmpty()||confirmPassword.isEmpty()){
                  JOptionPane.showMessageDialog(this, "Please input full information !!");
              }
+             else if(checkExistUser(username)!=-1){
+                 JOptionPane.showMessageDialog(this, "User exist !! Please input again !!");
+             }
              else if(!password.equals(confirmPassword)){
                 JOptionPane.showMessageDialog(this, "Password does not match !! Please input again !!");
              }
@@ -312,21 +318,26 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
 
     private void BtnLockMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLockMouseClicked
         try{
-             Class.forName("com.mysql.jdbc.Driver");
-             Connection connection=DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
-             String username=Username.getText();
-             String password=Password.getText();
-             String confirmPassword=ConfirmedPassword.getText();
-             if(!password.equals(confirmPassword)){
-                JOptionPane.showMessageDialog(this, "Password does not match !! Please input again !!");
-             }
-             else{
-                    String sql="Update Account set Status = 0 where UserID='"+this.managerList.get(this.selectedIndex).getID()+"'";
-                    Statement state = connection.createStatement();                       
-                    state.execute(sql);
-                    connection.close();
-                    JOptionPane.showMessageDialog(this, "Deactivated " + username);
-             }
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection=DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
+            String username=Username.getText();
+            String password=Password.getText();
+            String confirmPassword=ConfirmedPassword.getText();
+            if(username.isEmpty() == true){
+                JOptionPane.showMessageDialog(this, "Please input username to deactivate an manager account!");
+                return;
+            }
+            else{
+                if(checkExistUser(username)== -1){
+                    JOptionPane.showMessageDialog(this, "Username does not exist!");
+                    return;
+                }
+                String sql="Update Account set Status = 0 where UserID='"+this.managerList.get(this.selectedIndex).getID()+"'";
+                Statement state = connection.createStatement();                       
+                state.execute(sql);
+                connection.close();
+                JOptionPane.showMessageDialog(this, "Deactivated " + username);
+            }
                        
         }catch(Exception e){
             

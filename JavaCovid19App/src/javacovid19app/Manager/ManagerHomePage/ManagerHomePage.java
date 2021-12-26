@@ -165,16 +165,16 @@ public class ManagerHomePage extends javax.swing.JFrame {
     
         public void LoanBarChart(){
         barChartLoan.addLegend("0", new Color(129, 204, 191));
-        barChartLoan.addLegend("<200K", new Color(193, 129, 204));
-        barChartLoan.addLegend("200K->500K", new Color(227, 70, 138));
-        barChartLoan.addLegend("500K->1M", new Color(255, 15, 15));
+        barChartLoan.addLegend("<100K", new Color(193, 129, 204));
+        barChartLoan.addLegend("100K->200K", new Color(227, 70, 138));
+        barChartLoan.addLegend("200K->300K", new Color(255, 15, 15));
         String quater [] = {"Loan Amount Bar Chart"};
       
         int noLoan = getLoanCountByRange(1);
-        int loan200 = getLoanCountByRange(2);
-        int loan500 = getLoanCountByRange(3);
-        int loan1M = getLoanCountByRange(4);
-        barChartLoan.addData(new ModelChart(quater[0], new double[]{noLoan, loan200, loan500, loan1M}));
+        int loan100 = getLoanCountByRange(2);
+        int loan200 = getLoanCountByRange(3);
+        int loan300 = getLoanCountByRange(4);
+        barChartLoan.addData(new ModelChart(quater[0], new double[]{noLoan, loan100, loan200, loan300}));
         barChartLoan.start();
     }
     
@@ -194,7 +194,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 return Integer.valueOf(num);
             }
             else if(type == 2){
-                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 1 AND 200000";
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 1 AND 100000";
                 ResultSet res = state.executeQuery(sql);
                 String num = "";
                 while(res.next()){
@@ -204,7 +204,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 return Integer.valueOf(num);
             }
             else if(type == 3){
-                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 200001 AND 500000";
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 100001 AND 200000";
                 ResultSet res = state.executeQuery(sql);
                 String num = "";
                 while(res.next()){
@@ -214,7 +214,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 return Integer.valueOf(num);
             }
             else if(type == 4){
-                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 500001 AND 1000000";
+                String sql = "Select COUNT(ManagedUser.UserID) AS NumberOfUser from ManagedUser where ManagedUser.Loan BETWEEN 200000 AND 300000";
                 ResultSet res = state.executeQuery(sql);
                 String num = "";
                 while(res.next()){
@@ -500,7 +500,7 @@ public class ManagerHomePage extends javax.swing.JFrame {
                 barChartLoanMouseClicked(evt);
             }
         });
-        getContentPane().add(barChartLoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 410, 380, 260));
+        getContentPane().add(barChartLoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 410, 430, 260));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerHomeBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));

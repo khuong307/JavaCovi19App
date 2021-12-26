@@ -37,6 +37,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
     private int type = 1;
     public ManagerSupplies() {
         initComponents();
+        TableList.setDefaultEditor(Object.class, null);
         this.setResizable(false);
         this.setTitle("Supplies Management");
         getNecessariesData();
