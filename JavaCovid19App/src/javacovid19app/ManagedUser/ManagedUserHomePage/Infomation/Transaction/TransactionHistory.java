@@ -60,6 +60,8 @@ public class TransactionHistory extends javax.swing.JFrame {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+        
+        transHistoryTable.setDefaultEditor(Object.class, null);
     }
     
     
@@ -126,31 +128,31 @@ public class TransactionHistory extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        transIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        transIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         transIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         transIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         transIDTextField.setOpaque(false);
         getContentPane().add(transIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 190, 40));
 
-        accountIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        accountIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         accountIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         accountIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         accountIDTextField.setOpaque(false);
         getContentPane().add(accountIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, 190, 40));
 
-        timeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        timeTextField.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         timeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         timeTextField.setOpaque(false);
         getContentPane().add(timeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 310, 40));
 
-        totalTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        totalTextField.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         totalTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         totalTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         totalTextField.setOpaque(false);
         getContentPane().add(totalTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 500, 290, 40));
 
-        balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
+        balanceTextField.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         balanceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         balanceTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         balanceTextField.setOpaque(false);

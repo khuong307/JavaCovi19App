@@ -64,6 +64,8 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+        
+        covidHistoryTable.setDefaultEditor(Object.class, null);
     }
     
     

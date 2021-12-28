@@ -70,6 +70,8 @@ public class UserTreatmentMenu extends javax.swing.JFrame {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+        
+        treatmentTable.setDefaultEditor(Object.class, null);
     }
     
     

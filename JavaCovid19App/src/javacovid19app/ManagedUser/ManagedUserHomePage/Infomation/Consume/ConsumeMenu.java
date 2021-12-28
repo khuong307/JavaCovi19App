@@ -67,6 +67,8 @@ public class ConsumeMenu extends javax.swing.JFrame {
                 width=300;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+        
+        consumeHistoryTable.setDefaultEditor(Object.class, null);
     }
     
     
@@ -81,7 +83,11 @@ public class ConsumeMenu extends javax.swing.JFrame {
                 if(consumeHistoryList.get(i).getNecessaryID().compareTo(necessaryList.get(j).getNecessaryID())==0){
                     row[1]=necessaryList.get(j).getName();
                     row[2]=necessaryList.get(j).getType();
-                    row[4]=necessaryList.get(j).getPrice();
+                    
+                    String Price=String.valueOf(necessaryList.get(j).getPrice());
+                    Price = Price.substring(0, Price.indexOf('.'));
+                    row[4]=Price;
+                    
                     row[5]=necessaryList.get(j).getLimited();
                     row[6]=necessaryList.get(j).getTimeLimited();
                     break;
@@ -166,26 +172,30 @@ public class ConsumeMenu extends javax.swing.JFrame {
         });
         getContentPane().add(backLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 80, 70));
 
-        consumeIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        consumeIDTextField.setForeground(new java.awt.Color(255, 255, 255));
+        consumeIDTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        consumeIDTextField.setForeground(new java.awt.Color(153, 255, 153));
+        consumeIDTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         consumeIDTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         consumeIDTextField.setOpaque(false);
         getContentPane().add(consumeIDTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, 200, 30));
 
-        supplyNameTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        supplyNameTextField.setForeground(new java.awt.Color(255, 255, 255));
+        supplyNameTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        supplyNameTextField.setForeground(new java.awt.Color(153, 255, 153));
+        supplyNameTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         supplyNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         supplyNameTextField.setOpaque(false);
         getContentPane().add(supplyNameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 200, 30));
 
-        typeSupTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        typeSupTextField.setForeground(new java.awt.Color(255, 255, 255));
+        typeSupTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        typeSupTextField.setForeground(new java.awt.Color(153, 253, 153));
+        typeSupTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         typeSupTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         typeSupTextField.setOpaque(false);
         getContentPane().add(typeSupTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 200, 30));
 
-        buyTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        buyTimeTextField.setForeground(new java.awt.Color(255, 255, 255));
+        buyTimeTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        buyTimeTextField.setForeground(new java.awt.Color(153, 255, 153));
+        buyTimeTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         buyTimeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         buyTimeTextField.setOpaque(false);
         buyTimeTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -195,20 +205,23 @@ public class ConsumeMenu extends javax.swing.JFrame {
         });
         getContentPane().add(buyTimeTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, 200, 40));
 
-        priceTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        priceTextField.setForeground(new java.awt.Color(255, 255, 255));
+        priceTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        priceTextField.setForeground(new java.awt.Color(153, 255, 153));
+        priceTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         priceTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         priceTextField.setOpaque(false);
         getContentPane().add(priceTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 430, 200, 40));
 
-        limitedTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        limitedTextField.setForeground(new java.awt.Color(255, 255, 255));
+        limitedTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        limitedTextField.setForeground(new java.awt.Color(153, 255, 153));
+        limitedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         limitedTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         limitedTextField.setOpaque(false);
         getContentPane().add(limitedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 520, 200, 30));
 
-        timeLimitedTextField.setFont(new java.awt.Font("Fredoka One", 0, 16)); // NOI18N
-        timeLimitedTextField.setForeground(new java.awt.Color(255, 255, 255));
+        timeLimitedTextField.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        timeLimitedTextField.setForeground(new java.awt.Color(153, 255, 153));
+        timeLimitedTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         timeLimitedTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         timeLimitedTextField.setOpaque(false);
         getContentPane().add(timeLimitedTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, 170, 30));
