@@ -52,4 +52,7 @@ public class treatmentFacility {
     public void print1(){
         System.out.print(this.facilityID);
     }
+    public void print2(){
+        System.out.print(this.facilityID=id);
+    }
 }
