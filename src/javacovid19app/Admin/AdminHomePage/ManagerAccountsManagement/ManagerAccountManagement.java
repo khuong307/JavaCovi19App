@@ -58,6 +58,9 @@ public class ManagerAccountManagement extends javax.swing.JFrame {
     public void print5(){
         System.out.print(this.managerList);
     }
+    public void print6(){
+        System.out.print(this.loginHistory);
+    }
     public int checkExistUser(String username){
         for (int i = 0; i < this.managerList.size(); i++){
             
