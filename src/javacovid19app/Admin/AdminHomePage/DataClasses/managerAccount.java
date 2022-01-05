@@ -21,6 +21,9 @@ public class managerAccount {
         this.ID=id;
         this.password=password;
     }
+    public void print(){
+        System.out.print(this.ID);
+    }
 
 
 }
