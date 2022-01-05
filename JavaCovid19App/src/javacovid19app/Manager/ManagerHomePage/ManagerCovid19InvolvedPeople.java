@@ -47,6 +47,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private ArrayList <District> districtList = new ArrayList<>(); 
     private ArrayList <Location> locateList = new ArrayList<>(); 
     private ArrayList <ManagedUser> managedUserList = new ArrayList<>(); 
+    private ArrayList <ManagedUser> searchResult = new ArrayList<>(); 
     private ArrayList <TreatmentFacility> treatmentFacilityList = new ArrayList<>(); 
     
     public ManagerCovid19InvolvedPeople() {
@@ -115,6 +116,27 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             model.addRow(row);
             
         }
+    }
+    public void ShowSearchList(){
+        DefaultTableModel  model = (DefaultTableModel)jTable_Display_User.getModel();
+        while (model.getRowCount()>0){
+            model.removeRow(0);
+        }
+        Object[] row = new Object [9];
+        
+        for (int i = 0; i < this.searchResult.size(); i++){
+            row[0] = searchResult.get(i).getID();
+            row[1] = searchResult.get(i).getFullname();
+            row[2] = searchResult.get(i).getYOB();
+            row[3] = searchResult.get(i).getCity().getName();
+            row[4] = searchResult.get(i).getDistrict().getName();
+            row[5] = searchResult.get(i).getWard().getName();
+            row[6] = searchResult.get(i).getCurrentStatus();
+            row[7] = searchResult.get(i).getFacilityName();
+            row[8] = searchResult.get(i).getInvolvedID();
+            model.addRow(row);
+        }
+        searchResult.removeAll(searchResult);
     }
   
     // get Facility data
@@ -285,7 +307,10 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         BtnCheck = new javax.swing.JLabel();
         BtnRemove = new javax.swing.JLabel();
         BtnSearchInvolved = new javax.swing.JLabel();
+        ReFreshUserList = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        BtnCheck1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -430,7 +455,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
                 BtnBackManageHomePageMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnBackManageHomePage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 60, 50));
+        getContentPane().add(BtnBackManageHomePage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 40, 40));
 
         BtnRefreshDetail.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -506,8 +531,27 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         });
         getContentPane().add(BtnSearchInvolved, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 520, 40, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCovidInvolvedBackground.png"))); // NOI18N
+        ReFreshUserList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ReFreshUserListMouseClicked(evt);
+            }
+        });
+        getContentPane().add(ReFreshUserList, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 250, 60));
+
+        txtSearch.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        txtSearch.setForeground(new java.awt.Color(196, 157, 0));
+        txtSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 200, 30));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCoviddInvolvedBackground.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 720));
+
+        BtnCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BtnCheck1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(BtnCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 40, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1400,6 +1444,36 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PersonalIDActionPerformed
 
+    private void ReFreshUserListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReFreshUserListMouseClicked
+        // TODO add your handling code here:
+        refreshJTable();
+        ShowUserList();
+    }//GEN-LAST:event_ReFreshUserListMouseClicked
+
+    private void BtnCheck1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnCheck1MouseClicked
+        String content = txtSearch.getText();
+        if (content.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please input information you want to search!");
+            return;
+        }else{
+            for(int i = 0; i < this.managedUserList.size(); i++){
+                if (this.managedUserList.get(i).getID().contains(content)){
+                    this.searchResult.add(this.managedUserList.get(i));
+                }
+                else if (this.managedUserList.get(i).getFullname().contains(content)){
+                    this.searchResult.add(this.managedUserList.get(i));
+                }
+            }
+
+            if (this.searchResult.size() == 0){
+                JOptionPane.showMessageDialog(this, "No information found!");
+            }
+            else{
+                ShowSearchList();
+            }
+        }
+    }//GEN-LAST:event_BtnCheck1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1439,6 +1513,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private javax.swing.JLabel BtnAdd;
     private javax.swing.JLabel BtnBackManageHomePage;
     private javax.swing.JLabel BtnCheck;
+    private javax.swing.JLabel BtnCheck1;
     private javax.swing.JLabel BtnRefreshDetail;
     private javax.swing.JLabel BtnRemove;
     private javax.swing.JLabel BtnSave;
@@ -1451,6 +1526,7 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private javax.swing.JTextField Fullname;
     private javax.swing.JTextField InvolvedPerson;
     private javax.swing.JTextField PersonalID;
+    private javax.swing.JLabel ReFreshUserList;
     private CustomComboBox.ComboBox RelatedComboBox;
     private CustomComboBox.ComboBox StatusComboBox;
     private CustomComboBox.ComboBox TreatmentFacilitiesComboBox;
@@ -1459,5 +1535,6 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable_Display_User;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
