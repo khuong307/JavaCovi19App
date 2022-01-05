@@ -20,7 +20,7 @@ public class loginHistory {
     }
     public void change(){
         int a;
-        
+        int b;
     }
     public String getLogoutTime(){
         return this.logoutTime;
