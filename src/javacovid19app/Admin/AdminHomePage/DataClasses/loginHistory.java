@@ -19,6 +19,7 @@ public class loginHistory {
         return this.loginTime;
     }
     public void change(){
+        int a;
         
     }
     public String getLogoutTime(){
