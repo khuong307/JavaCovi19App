@@ -49,4 +49,7 @@ public class treatmentFacility {
     public void setPresentQuantity(int presentQuantity){
          this.presentQuantity=presentQuantity;
     }
+    public void print1(){
+        System.out.print(this.facilityID);
+    }
 }
