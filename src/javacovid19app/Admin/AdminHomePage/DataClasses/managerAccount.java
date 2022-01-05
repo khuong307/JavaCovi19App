@@ -24,6 +24,8 @@ public class managerAccount {
     public void print(){
         System.out.print(this.ID);
     }
-
+    public void print1(){
+        System.out.print(this.password);
+    }
 
 }
