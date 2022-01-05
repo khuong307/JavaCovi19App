@@ -53,6 +53,12 @@ public class treatmentFacility {
         System.out.print(this.facilityID);
     }
     public void print2(){
-        System.out.print(this.facilityID=id);
+        System.out.print(this.facilityID);
+    }
+    public void print3(){
+        System.out.print(this.name=name);
+    }
+    public void print4(){
+        System.out.print(this.quantity);
     }
 }
