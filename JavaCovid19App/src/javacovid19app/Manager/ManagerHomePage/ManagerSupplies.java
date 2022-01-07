@@ -34,6 +34,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
      */
     private final Logger logger = Logger.getLogger(ManagerSupplies.class);
     private ArrayList <Necessary> necessaryList = new ArrayList<>();
+    private ArrayList <Necessary> searchResult = new ArrayList<>();
     private int type = 1;
     public ManagerSupplies() {
         initComponents();
@@ -82,6 +83,32 @@ public class ManagerSupplies extends javax.swing.JFrame {
               logger.error("Error when get Necessaries in database.");
            System.out.println(e.getMessage());
         }
+    }
+    
+    public void ShowSearchFoodsList(){
+        DefaultTableModel model = (DefaultTableModel)TableList.getModel();
+        Object[] row = new Object [4];
+        
+        for (int i = 0; i < this.necessaryList.size(); i++){
+            for (int j = 0; j < this.searchResult.size(); j++){
+                if (this.searchResult.get(j).getID().compareTo(this.necessaryList.get(i).getID())==0){
+                    row[0] = necessaryList.get(i).getName();
+                    row[1] = necessaryList.get(i).getLimitation();
+                    if (Integer.valueOf(necessaryList.get(i).getDateLimit()) >= 30){
+                        row[2] = Integer.valueOf(necessaryList.get(i).getDateLimit()) / 30 + " month(s)";
+                    }
+                    else if (Integer.valueOf(necessaryList.get(i).getDateLimit()) >= 7 ){
+                        row[2] = Integer.valueOf(necessaryList.get(i).getDateLimit()) / 7 + " week(s)";
+                    }
+                    else{
+                        row[2] = Integer.valueOf(necessaryList.get(i).getDateLimit()) + " days";
+                    }
+                    row [3] = necessaryList.get(i).getPrice();
+                    model.addRow(row);
+                }
+            }
+        }
+        logger.debug("Info in ShowInstantFoodsList()");
     }
     
     public void ShowInstantFoodsList(){
@@ -216,6 +243,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
         BtnBack = new javax.swing.JLabel();
         BtnRemove = new javax.swing.JLabel();
         BtnRefresh = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
         BtnSearch = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -357,14 +385,14 @@ public class ManagerSupplies extends javax.swing.JFrame {
                 BtnAddMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 60, 50));
+        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 60, 50));
 
         BtnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnSaveMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 530, 60, 50));
+        getContentPane().add(BtnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 530, 50, 50));
 
         BtnBack.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -378,7 +406,7 @@ public class ManagerSupplies extends javax.swing.JFrame {
                 BtnRemoveMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 530, 60, 50));
+        getContentPane().add(BtnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, 60, 50));
 
         BtnRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -387,14 +415,25 @@ public class ManagerSupplies extends javax.swing.JFrame {
         });
         getContentPane().add(BtnRefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 30, 40));
 
+        txtSearch.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
+        txtSearch.setForeground(new java.awt.Color(0, 51, 51));
+        txtSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
+        txtSearch.setOpaque(false);
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 610, 210, 40));
+
         BtnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnSearchMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 530, 60, 50));
+        getContentPane().add(BtnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 610, 50, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerSuppliesBackground.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerSupliesBackGround.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         pack();
@@ -555,7 +594,10 @@ public class ManagerSupplies extends javax.swing.JFrame {
         }
         else if (type == 3){
             ShowEssentialList();
-        }    
+        } 
+        else if (type == 4){
+            ShowSearchFoodsList();
+        } 
         EditTableHeightWidth(TableList);
     }//GEN-LAST:event_BtnSortMouseClicked
 
@@ -668,6 +710,9 @@ public class ManagerSupplies extends javax.swing.JFrame {
         else if (type == 3){
             ShowEssentialList();
         }    
+        else if (type == 4){
+            ShowSearchFoodsList();
+        }  
         EditTableHeightWidth(TableList);
         }
     }//GEN-LAST:event_BtnSaveMouseClicked
@@ -726,6 +771,9 @@ public class ManagerSupplies extends javax.swing.JFrame {
             else if (type == 3){
                 ShowEssentialList();
             }    
+            else if (type == 4){
+                ShowSearchFoodsList();
+            }  
             EditTableHeightWidth(TableList);
         }
         return;
@@ -739,36 +787,33 @@ public class ManagerSupplies extends javax.swing.JFrame {
         Price.setText("");
     }//GEN-LAST:event_BtnRefreshMouseClicked
 
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
     private void BtnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSearchMouseClicked
         // TODO add your handling code here:
-        String name = Name.getText();
-        String limit = Limit.getText();
-        String expired = Expired.getText();
-        String price = Price.getText();
-        
-        if (name.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please provide supply's name!");
+        type = 4;
+        this.searchResult.removeAll(searchResult);
+        String content = txtSearch.getText();
+        if (content.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please input information you want to search!");
             return;
-        }
-        
-        int index = checkExistSupply(name);
-        if ( index == -1){
-            JOptionPane.showMessageDialog(this, "Not found!");
-            return;
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "Found!");
-            int position = 0;
-            for (int i = 0; i < this.necessaryList.size(); i++){
-                if (this.necessaryList.get(i).getName().contains(name) == true){
-                    break;
-                }
-                if (this.necessaryList.get(i).getType().compareTo(String.valueOf(type)) == 0){
-                    position++;
+        }else{
+            
+            for(int i = 0; i < this.necessaryList.size(); i++){
+                if (this.necessaryList.get(i).getName().contains(content)){
+                    this.searchResult.add(this.necessaryList.get(i));
                 }
             }
-            TableList.setRowSelectionInterval(position, position);
-            return;
+
+            if (this.searchResult.size() == 0){
+                JOptionPane.showMessageDialog(this, "No information found!");
+            }
+            else{
+                refreshJTable();
+                ShowSearchFoodsList();
+            }
         }
     }//GEN-LAST:event_BtnSearchMouseClicked
 
@@ -832,5 +877,6 @@ public class ManagerSupplies extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

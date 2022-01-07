@@ -309,8 +309,8 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         BtnSearchInvolved = new javax.swing.JLabel();
         ReFreshUserList = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         BtnCheck1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -538,13 +538,10 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
         });
         getContentPane().add(ReFreshUserList, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 250, 60));
 
-        txtSearch.setFont(new java.awt.Font("Fredoka One", 0, 14)); // NOI18N
+        txtSearch.setFont(new java.awt.Font("Fredoka One", 0, 18)); // NOI18N
         txtSearch.setForeground(new java.awt.Color(196, 157, 0));
         txtSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 0, 0)));
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 200, 30));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCoviddInvolvedBackground.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 720));
 
         BtnCheck1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -552,6 +549,9 @@ public class ManagerCovid19InvolvedPeople extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnCheck1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 70, 40, 40));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Manager/ManagerHomePage/ManagerCoviddInvolvedBackground.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
