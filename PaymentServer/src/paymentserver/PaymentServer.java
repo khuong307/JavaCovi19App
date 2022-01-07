@@ -87,23 +87,30 @@ public class PaymentServer {
                             Class.forName("com.mysql.jdbc.Driver");
                             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
                             Statement state = connect.createStatement();
-
-                            int length = getLengthTransaction();
-                            String num = String.format("%05d", length + 1);
-                            String TransactionID = "TR" + num;
-
-                            String sql = "insert into Transaction(TransactionID, UserID, TransactionTime, AccountID, Total) values"
-                                    + "('" + TransactionID + "', '" + lst[0] + "', '" + getCurrentTime() + "', '"
-                                    + ReceivedAccount + "', " + lst[1] + ")";
-                            state.executeUpdate(sql);
-
-                            sql = "update ManagedUser set Balance = Balance - Loan, Loan = 0 where UserID = " + lst[0];
-                            state.executeUpdate(sql);
                             
-                            sql = "update MainAccount set Balance = Balance + " + lst[1] + " where AccountID = '" + ReceivedAccount + "'";
-                            state.executeUpdate(sql);
-                            
-                            dos.writeUTF("Transaction successful");
+                            if (lst[1].equals("Request")){
+                                String sql = "update ManagedUser set isPay = 1, Balance = 1000000 where UserID = '" + lst[0] + "'";
+                                state.executeUpdate(sql);
+                                dos.writeUTF("This user can begin to transact.");
+                            }
+                            else{
+                                int length = getLengthTransaction();
+                                String num = String.format("%05d", length + 1);
+                                String TransactionID = "TR" + num;
+
+                                String sql = "insert into Transaction(TransactionID, UserID, TransactionTime, AccountID, Total) values"
+                                        + "('" + TransactionID + "', '" + lst[0] + "', '" + getCurrentTime() + "', '"
+                                        + ReceivedAccount + "', " + lst[1] + ")";
+                                state.executeUpdate(sql);
+
+                                sql = "update ManagedUser set Balance = Balance - Loan, Loan = 0 where UserID = " + lst[0];
+                                state.executeUpdate(sql);
+
+                                sql = "update MainAccount set Balance = Balance + " + lst[1] + " where AccountID = '" + ReceivedAccount + "'";
+                                state.executeUpdate(sql);
+
+                                dos.writeUTF("Transaction successful");
+                            }
                             connect.close();
                             dos.close();
                             dis.close();

@@ -25,11 +25,13 @@ class ManagedUser{
     private String UserID;
     private String UserName;
     private int loan = 0;
+    private int balance = 0;
 
-    ManagedUser(String id, String name, int loan){
+    ManagedUser(String id, String name, int loan, int balance){
         this.UserID = id;
         this.UserName = name;
         this.loan = loan;
+        this.balance = balance;
     }
     
     public String getId(){
@@ -42,6 +44,10 @@ class ManagedUser{
     
     public int getLoan(){
         return loan;
+    }
+    
+    public int getBalance(){
+        return balance;
     }
 }
 
@@ -74,11 +80,11 @@ public class AccountManagement extends javax.swing.JFrame {
             Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
             Statement state = connect.createStatement();
             
-            String sql = "select * from ManagedUser where isPay = 0";
+            String sql = "select * from ManagedUser where isPay = 1";
             ResultSet res = state.executeQuery(sql);
             
             while(res.next()){
-                ManagedUser tmp = new ManagedUser(res.getString("UserID"), res.getString("Fullname"), res.getInt("Loan"));
+                ManagedUser tmp = new ManagedUser(res.getString("UserID"), res.getString("Fullname"), res.getInt("Loan"), res.getInt("Balance"));
                 lst.add(tmp);
             }
 
@@ -154,7 +160,6 @@ public class AccountManagement extends javax.swing.JFrame {
         TextUserID = new javax.swing.JTextField();
         TextAccountID = new javax.swing.JTextField();
         TextBalance = new javax.swing.JTextField();
-        BtnAdd = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -202,13 +207,6 @@ public class AccountManagement extends javax.swing.JFrame {
         TextBalance.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
         getContentPane().add(TextBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 410, 220, 40));
 
-        BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BtnAddMouseClicked(evt);
-            }
-        });
-        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 520, 370, 70));
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paymentserver/AccountManagement/AddPaymentAccount.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -222,36 +220,6 @@ public class AccountManagement extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_BtnBackMouseClicked
 
-    private void BtnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnAddMouseClicked
-        // TODO add your handling code here:
-        if (userid != ""){
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection connect = DriverManager.getConnection("jdbc:mysql://sql6.freemysqlhosting.net:3306/sql6448649?useSSL = false", "sql6448649", "ygTCgTJZu6");
-                Statement state = connect.createStatement();
-
-                String sql = "update ManagedUser set isPay = 1, Balance = 1000000 where UserID = '" + userid + "'";
-                state.executeUpdate(sql);
-
-                connect.close();
-                
-                if (row != -1){
-                    lst.remove(row);
-                    refreshJTable();
-                    showData();
-                    EditTableHeightWidth();
-                    JOptionPane.showMessageDialog(this, "Create payment account successfully!");
-                }
-                row = -1;
-
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(AccountManagement.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_BtnAddMouseClicked
-
     private void TabUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabUserMouseClicked
         // TODO add your handling code here:
         int index = TabUser.getSelectedRow(); // row that manager choose.
@@ -261,7 +229,7 @@ public class AccountManagement extends javax.swing.JFrame {
         TextUserID.setText(model.getValueAt(index, 1).toString());
         userid = TextUserID.getText();
         TextAccountID.setText(model.getValueAt(index, 1).toString());
-        TextBalance.setText("1000000");        
+        TextBalance.setText(Integer.toString(lst.get(index).getBalance()));        
     }//GEN-LAST:event_TabUserMouseClicked
 
     /**
@@ -300,7 +268,6 @@ public class AccountManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel BtnAdd;
     private javax.swing.JLabel BtnBack;
     private javax.swing.JTable TabUser;
     private javax.swing.JTextField TextAccountID;

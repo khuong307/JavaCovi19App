@@ -53,6 +53,7 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
     public ManagedUserTransaction(String username) {
         this.userID = username;
         initComponents();
+        TabTrans.setDefaultEditor(Object.class, null);
         TextBalance.setOpaque(false);
         TextBalance.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         TextBalance.setEditable(false);
@@ -238,17 +239,23 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
             }
             connect.close();
             
+            InetAddress ip = InetAddress.getByName("localhost");
+            
+            Socket s = new Socket(ip, 1234);
+
+            DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+            DataInputStream din = new DataInputStream(s.getInputStream());
+            
             if (val == 0){
-                JOptionPane.showMessageDialog(this, "This account need to create an banking account");
+                dos.writeUTF(userID + "-" + "Request");
+                String message = din.readUTF();
+                JOptionPane.showMessageDialog(this, message);
+                din.close();
+                dos.close();
+                s.close();
             }
             
             else{
-                InetAddress ip = InetAddress.getByName("localhost");
-            
-                Socket s = new Socket(ip, 1234);
-
-                DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-                DataInputStream din = new DataInputStream(s.getInputStream());
                 dos.writeUTF(userID + "-" + loan);
                 
                 String message = din.readUTF();
