@@ -206,7 +206,12 @@ public class CovidHistoryMenu extends javax.swing.JFrame {
         TableModel model=covidHistoryTable.getModel();
         statusTextField.setText(model.getValueAt(i, 0).toString());
         beginTimeTextField.setText(model.getValueAt(i, 1).toString());
-        endTimeTextField.setText(model.getValueAt(i, 2).toString());
+        if(model.getValueAt(i,2)!=null && model.getValueAt(i,2).toString().trim().length()!=0){
+            endTimeTextField.setText(model.getValueAt(i, 2).toString());
+        }
+        else{
+            endTimeTextField.setText("NULL");
+        }
         involvedPersonTextField.setText(model.getValueAt(i, 3).toString());
     }//GEN-LAST:event_covidHistoryTableMouseClicked
 
