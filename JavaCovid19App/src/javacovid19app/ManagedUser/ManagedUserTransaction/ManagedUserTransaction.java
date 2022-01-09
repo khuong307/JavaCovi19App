@@ -164,6 +164,8 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
         TabTrans = new javax.swing.JTable();
         BtnConfirm = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -208,9 +210,11 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
             }
         });
         getContentPane().add(BtnConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 640, 260, 60));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\DELL\\Documents\\GitHub\\JavaCovi19App\\JavaCovid19App\\src\\javacovid19app\\ManagedUser\\ManagedUserTransaction\\ManagedUserTransaction.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, -1, -1));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/ManagedUser/ManagedUserTransaction/ManagedUserTransaction.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -316,6 +320,8 @@ public class ManagedUserTransaction extends javax.swing.JFrame {
     private javax.swing.JTextField TextBalance;
     private javax.swing.JTextField TextLoan;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

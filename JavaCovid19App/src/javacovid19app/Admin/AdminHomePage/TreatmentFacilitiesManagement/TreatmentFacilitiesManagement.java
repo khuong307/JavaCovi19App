@@ -48,8 +48,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
     public TreatmentFacilitiesManagement() {
         initComponents();
         this.setResizable(false);
-        TreatmentList.setDefaultEditor(Object.class, null);
-        this.setTitle("Treatment Facilites Management");
+        this.setTitle("Supplies Management");
         getTreatmentFacility();
         TreatmentList.setFont(new java.awt.Font("Fredoka One", 0, 18));
         TreatmentList.setBackground(new Color (221, 174, 11));
@@ -102,19 +101,11 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        PresentQuantity.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
-        PresentQuantity.setForeground(new java.awt.Color(38, 191, 125));
-        PresentQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        PresentQuantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         PresentQuantity.setOpaque(false);
-        getContentPane().add(PresentQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, 160, 40));
+        getContentPane().add(PresentQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 160, 60));
 
-        MaximumQuantity.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
-        MaximumQuantity.setForeground(new java.awt.Color(38, 191, 125));
-        MaximumQuantity.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        MaximumQuantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         MaximumQuantity.setOpaque(false);
-        getContentPane().add(MaximumQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 300, 160, 40));
+        getContentPane().add(MaximumQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 160, 50));
 
         BtnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -124,14 +115,14 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                 BtnAddMouseEntered(evt);
             }
         });
-        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 424, 120, 40));
+        getContentPane().add(BtnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(54, 424, 120, 50));
 
         BtnSave.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 BtnSaveMouseClicked(evt);
             }
         });
-        getContentPane().add(BtnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 120, 40));
+        getContentPane().add(BtnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 120, 50));
 
         TreatmentList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -141,7 +132,6 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                 "Facilities's name", "Maximum quantity", "Present Quantity"
             }
         ));
-        TreatmentList.setOpaque(false);
         TreatmentList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TreatmentListMouseClicked(evt);
@@ -149,14 +139,10 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(TreatmentList);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 480, 340));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 490, 340));
 
-        FacilityName.setFont(new java.awt.Font("Fredoka One", 0, 24)); // NOI18N
-        FacilityName.setForeground(new java.awt.Color(38, 191, 125));
-        FacilityName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        FacilityName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         FacilityName.setOpaque(false);
-        getContentPane().add(FacilityName, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 180, 160, 40));
+        getContentPane().add(FacilityName, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 180, 160, 50));
 
         BtnBack.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -174,7 +160,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javacovid19app/Admin/AdminHomePage/TreatmentFacilitiesManagement/TreatMentManagementBackground(960x540).png"))); // NOI18N
         jLabel1.setText("jLabel1");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 540));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 550));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -201,6 +187,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
         }
         int maximumQuantity=Integer.parseInt(maximumQuantityText);
         int presentQuantity= Integer.parseInt(presentQuantityText);
+	// FIX ADD FUNCTION
         int size = this.treatmentFacility.size() +1;
         String ID = "F00"+String.valueOf(size);
         treatmentFacility tmp = new treatmentFacility (ID, name, maximumQuantity, presentQuantity);
@@ -217,7 +204,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                                                 + " values ('"+ID+"', '"+name+"', '"+maximumQuantity+"','"+presentQuantity+"')";
             state.execute(necesscary);
             connect.close();
-            JOptionPane.showMessageDialog(this, "Add new Facility successful!");
+            JOptionPane.showMessageDialog(this, " Add new Facility with successful!");
         }catch(Exception e){
            System.out.println(e.getMessage());
         }
@@ -259,7 +246,7 @@ public class TreatmentFacilitiesManagement extends javax.swing.JFrame {
                 state.execute(necesscary);
                 connect.close();
                 if(!presentQuantityText.isEmpty()){
-                    JOptionPane.showMessageDialog(this, "System will not change present quantity!");
+                    JOptionPane.showMessageDialog(this, "System will not change present quantity.Save successfully!");
                 }
                 JOptionPane.showMessageDialog(this, "Save successfully!");
                 refreshJTable();
